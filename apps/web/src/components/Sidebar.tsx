@@ -38,6 +38,7 @@ import {
   isThreadWorking,
 } from "@t3tools/client-runtime/state/thread-inbox";
 import { sortSettledThreads } from "@t3tools/client-runtime/state/thread-sort";
+import type { SidebarProjectSortOrder } from "@t3tools/contracts/settings";
 import {
   nextShownOrder,
   threadSearchMatchKey,
@@ -183,6 +184,8 @@ import {
 import {
   applySidebarThreadDrop,
   filterSidebarV2VisibleThreads,
+  groupSidebarShelfByProject,
+  sortSidebarActiveThreads,
   groupSidebarThreadsByProject,
   sidebarFolderExpansionKeys,
   buildBulkTitleRegenerationContextMenuItem,
@@ -208,9 +211,7 @@ import {
   shouldNavigateAfterThreadPark,
   sidebarListItemId,
   sidebarThreadKeyAtY,
-  sortInboxThreadsByReturn,
   sortPinnedThreadsForSidebar,
-  sortThreadsForSidebar,
   sortWorkingThreadsBySend,
   useSnoozeWakeClock,
   threadShortcutContext,
@@ -281,6 +282,7 @@ import {
 } from "./sidebar/SidebarDraftBlock";
 import {
   SidebarProjectFolderHeader,
+  SidebarSettledProjectLabel,
   sidebarFolderRowId,
 } from "./sidebar/SidebarProjectFolderHeader";
 import {
@@ -370,8 +372,8 @@ interface SidebarThreadPartitionInput {
   readonly connectedEnvironmentIds: readonly EnvironmentId[];
   readonly optimisticDrop: SidebarOptimisticDrop | null;
   readonly workingShelfEnabled: boolean;
-  /** Boring mode: folders list active threads by the user's latest message. */
-  readonly sortActiveBySend: boolean;
+  /** The view menu's Sort by, which orders active threads in every grouping. */
+  readonly sortOrder: SidebarProjectSortOrder;
   // Snooze wakes, the queued-turn grace and the Working shelf's exit grace depend
   // on the clock, so the minute tick, the precise snooze-wake tick and the inbox
   // tracker's expiry version are inputs: a new key repartitions.
@@ -397,9 +399,9 @@ function resolveDraggedOrders(input: {
   readonly threadByKey: ReadonlyMap<string, EnvironmentThreadShell>;
   readonly settledThreads: readonly EnvironmentThreadShell[];
   readonly activeThreads: readonly EnvironmentThreadShell[];
-  readonly workingShelfEnabled: boolean;
+  readonly sortOrder: SidebarProjectSortOrder;
 }): typeof NO_DRAGGED_ORDERS {
-  const { drag, threadByKey, settledThreads, activeThreads, workingShelfEnabled } = input;
+  const { drag, threadByKey, settledThreads, activeThreads, sortOrder } = input;
   const thread = threadByKey.get(drag.activeKey);
   if (thread === undefined) return NO_DRAGGED_ORDERS;
   const others = (list: readonly EnvironmentThreadShell[]) =>
@@ -409,12 +411,14 @@ function resolveDraggedOrders(input: {
       ...others(settledThreads),
       applySidebarThreadDrop(thread, "settled", drag.occurredAt),
     ]).map(threadShellKey),
-    activeOrder: workingShelfEnabled
-      ? sortInboxThreadsByReturn(
-          [...others(activeThreads), applySidebarThreadDrop(thread, "active", drag.occurredAt)],
-          inboxReturns.returnedAt,
-        ).map(threadShellKey)
-      : undefined,
+    // A time-ordered Active previews where the drop will land; Manual follows the pointer.
+    activeOrder:
+      sortOrder === "manual"
+        ? undefined
+        : sortSidebarActiveThreads(
+            [...others(activeThreads), applySidebarThreadDrop(thread, "active", drag.occurredAt)],
+            sortOrder,
+          ).map(threadShellKey),
   };
 }
 
@@ -457,9 +461,8 @@ function useSidebarThreads(input: {
     keepEmptyFolders: keepEmpty,
   } = input;
   const shelfRouteThreadKey = routeRowThreadKey === departingThreadKey ? null : routeRowThreadKey;
-  // Folders already separate the work, so boring mode has no Working shelf.
-  const workingShelfEnabled =
-    useClientSettings((s) => s.sidebarWorkingShelfEnabled) && folderGroups === null;
+  const workingShelfEnabled = useClientSettings((s) => s.sidebarWorkingShelfEnabled);
+  const sortOrder = useClientSettings((s) => s.sidebarProjectSortOrder);
   const inboxReturnsVersion = useSyncExternalStore(
     inboxReturns.subscribe,
     inboxReturns.getSnapshot,
@@ -503,7 +506,7 @@ function useSidebarThreads(input: {
     connectedEnvironmentIds,
     optimisticDrop,
     workingShelfEnabled,
-    sortActiveBySend: folderGroups !== null,
+    sortOrder,
     clockKey: `${nowMinute}:${snoozeWakeClock}:${inboxReturnsVersion}`,
   });
 
@@ -532,12 +535,28 @@ function useSidebarThreads(input: {
     }
     return visible.length === settledThreads.length ? settledThreads : visible;
   })();
-  const renderedSettledThreads = settledShelfExpanded
+  const shownSettledThreads = settledShelfExpanded
     ? visibleSettledThreads
     : routeThreadOnly(visibleSettledThreads, shelfRouteThreadKey);
-  const visibleSnoozedThreads = snoozedShelfExpanded
+  // "Apply to Settled etc" groups the Settled and Snoozed shelves by project too.
+  const groupShelves = useClientSettings((s) => s.sidebarViewAppliesToShelves);
+  const groupShelfByProject = (shown: readonly EnvironmentThreadShell[]) =>
+    folderGroups === null || !groupShelves
+      ? null
+      : groupSidebarShelfByProject(folderGroups, shown, threadShellKey);
+  const settledProjectGroups = groupShelfByProject(shownSettledThreads);
+  const renderedSettledThreads =
+    settledProjectGroups === null
+      ? shownSettledThreads
+      : settledProjectGroups.flatMap((group) => group.threads);
+  const shownSnoozedThreads = snoozedShelfExpanded
     ? snoozedThreads
     : routeThreadOnly(snoozedThreads, shelfRouteThreadKey);
+  const snoozedProjectGroups = groupShelfByProject(shownSnoozedThreads);
+  const visibleSnoozedThreads =
+    snoozedProjectGroups === null
+      ? shownSnoozedThreads
+      : snoozedProjectGroups.flatMap((group) => group.threads);
   const visibleWorkingThreads = workingShelfExpanded
     ? workingThreads
     : routeThreadOnly(workingThreads, routeRowThreadKey);
@@ -584,6 +603,7 @@ function useSidebarThreads(input: {
     ...partition,
     threads,
     workingShelfEnabled,
+    activeSortOrder: sortOrder,
     searchableThreads: [
       ...pinnedThreads,
       ...activeThreads,
@@ -612,6 +632,8 @@ function useSidebarThreads(input: {
       setProjectExpanded(keys, !resolveProjectExpanded(projectExpandedById, keys));
     },
     renderedSettledThreads,
+    settledProjectGroups,
+    snoozedProjectGroups,
     visibleSnoozedThreads,
     visibleWorkingThreads,
     orderedThreadKeys: orderedThreads.map(threadShellKey),
@@ -638,7 +660,6 @@ function partitionSidebarThreads(input: SidebarThreadPartitionInput) {
     serverConfigs,
     optimisticDrop,
     workingShelfEnabled,
-    sortActiveBySend,
   } = input;
   const preciseNow = new Date().toISOString();
   const visible = filterSidebarV2VisibleThreads(threads, scopedProjectKeys, delegatedUnderParent);
@@ -696,11 +717,7 @@ function partitionSidebarThreads(input: SidebarThreadPartitionInput) {
   }
   // Availability gates dragging only; sorting must stay consistent across clients.
   const sortedPinned = sortPinnedThreadsForSidebar(pinned);
-  const sortedActive = sortActiveBySend
-    ? sortWorkingThreadsBySend(active)
-    : workingShelfEnabled
-      ? sortInboxThreadsByReturn(active, inboxObservation.returnedAt)
-      : sortThreadsForSidebar(active);
+  const sortedActive = sortSidebarActiveThreads(active, input.sortOrder);
   return {
     pinnedThreads:
       optimisticDrop?.section !== "pinned" || optimisticDrop.order === null
@@ -1002,6 +1019,16 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
   });
   const boringSidebarEnabled = useClientSettings((settings) => settings.boringSidebarEnabled);
   const folderRowsMultiline = useClientSettings((settings) => settings.boringSidebarMultilineRows);
+  const cardDetailsLine = useClientSettings((settings) => settings.sidebarCardDetailsLine);
+  const collapsedRows = useClientSettings((settings) => settings.sidebarCollapsedRows);
+  const folderAgentIcon = useClientSettings((settings) => settings.sidebarFolderAgentIcon);
+  const projectIcon = useClientSettings((settings) => settings.sidebarProjectIcon);
+  const collapsedProjectName = useClientSettings(
+    (settings) => settings.sidebarCollapsedProjectName,
+  );
+  const collapsedAgentIcon = useClientSettings(
+    (settings) => settings.agentIconPositionWhenCollapsed,
+  );
   const newThreadContext = useHandleNewThread();
   // Row callbacks capture only the handler; the rest of the context changes with the route.
   const { handleNewThread } = newThreadContext;
@@ -1326,7 +1353,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
   );
 
   const {
-    workingShelfEnabled,
+    activeSortOrder,
     pinnedThreads,
     draggableThreadKeys,
     activeReorderableThreadKeys,
@@ -1350,6 +1377,8 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
     projectFolders,
     toggleProjectFolder,
     renderedSettledThreads,
+    settledProjectGroups,
+    snoozedProjectGroups,
     visibleSnoozedThreads,
     visibleWorkingThreads,
     orderedThreadKeys,
@@ -2059,9 +2088,22 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
     dragState === null && sidebarListItems.length + visibleDraftSessionCount > 0;
   // Cache on both fields so layout-key changes trigger the effect even when animate is unchanged.
   const listMotionPass = { layoutKey: listMotionLayoutKey, animate: listMotionAnimate };
-  const shelfExpansionKey = [workingShelfExpanded, snoozedShelfExpanded, settledShelfExpanded].join(
-    ":",
-  );
+  // View options change row heights and shelf grouping without reordering, so they
+  // re-snapshot positions without animating, like a shelf opening.
+  const shelfExpansionKey = [
+    workingShelfExpanded,
+    snoozedShelfExpanded,
+    settledShelfExpanded,
+    boringSidebarEnabled,
+    collapsedAgentIcon,
+    collapsedRows,
+    cardDetailsLine,
+    folderRowsMultiline,
+    projectIcon,
+    collapsedProjectName,
+    settledProjectGroups?.map((group) => group.key).join(",") ?? "",
+    snoozedProjectGroups?.map((group) => group.key).join(",") ?? "",
+  ].join(":");
   const previousShelfExpansionKeyRef = useRef(shelfExpansionKey);
   // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- records moved rows and updates list motion after each layout-affecting commit
   useLayoutEffect(() => {
@@ -2091,7 +2133,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
           threadByKey,
           settledThreads,
           activeThreads,
-          workingShelfEnabled,
+          sortOrder: activeSortOrder,
         });
   const sidebarSortingStrategy = createSidebarSortingStrategy({
     items: sidebarListItems,
@@ -2130,7 +2172,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
             activeOrder: activeKeys,
             activeKeysById,
             activeReorderableKeys: activeReorderableThreadKeys,
-            activeTimeOrdered: workingShelfEnabled,
+            activeTimeOrdered: activeSortOrder !== "manual",
           }).kind !== "none"
         );
       },
@@ -2164,7 +2206,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
       activeOrder: activeKeys,
       activeKeysById,
       activeReorderableKeys: activeReorderableThreadKeys,
-      activeTimeOrdered: workingShelfEnabled,
+      activeTimeOrdered: activeSortOrder !== "manual",
     });
     if (plan.kind === "none") return;
     if (plan.kind === "settle" && settlingThreadKeysRef.current.has(activeKey)) return;
@@ -3519,6 +3561,17 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                             }
                             thread={thread}
                             variant={rowVariant}
+                            hideDetailsLine={
+                              rowVariant === "card" &&
+                              !(boringSidebarEnabled ? folderRowsMultiline : cardDetailsLine)
+                            }
+                            collapsed={
+                              rowVariant === "card" && collapsedRows && !boringSidebarEnabled
+                            }
+                            collapsedAgentIcon={collapsedAgentIcon}
+                            hideAgentIcon={boringSidebarEnabled && !folderAgentIcon}
+                            hideProjectIcon={!projectIcon}
+                            hideProjectName={!collapsedProjectName}
                             navigationParent={
                               folderRow ??
                               (section === "working" ||
@@ -3627,6 +3680,9 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                         if (item.kind === "thread") {
                           // Folders draw active rows in their own place below.
                           if (projectFolders !== null && item.section === "active") continue;
+                          // Grouped settled rows draw after the settled placeholder below.
+                          if (settledProjectGroups !== null && item.section === "settled") continue;
+                          if (snoozedProjectGroups !== null && item.section === "snoozed") continue;
                           items.push(renderThreadRow(threadByKey.get(item.key)!, item.section));
                           continue;
                         }
@@ -3636,6 +3692,7 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                               <SidebarProjectFolderHeader
                                 key={`project-folder:${folder.group.projectKey}`}
                                 group={folder.group}
+                                showIcon={projectIcon}
                                 collapsed={folder.collapsed}
                                 hiddenThreads={folder.hiddenThreads}
                                 onToggle={toggleProjectFolder}
@@ -3725,6 +3782,19 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                                 }}
                               />,
                             );
+                            for (const group of snoozedProjectGroups ?? []) {
+                              items.push(
+                                <SidebarSettledProjectLabel
+                                  key={`snoozed-project:${group.key}`}
+                                  label={group.label}
+                                  project={group.project}
+                                  showIcon={projectIcon}
+                                />,
+                              );
+                              for (const thread of group.threads) {
+                                items.push(renderThreadRow(thread, "snoozed", "shelf:snoozed"));
+                              }
+                            }
                             break;
                           case "settled-header":
                             items.push(
@@ -3762,6 +3832,21 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                                 isDropTarget={dragTargetSection === "settled"}
                               />,
                             );
+                            if (settledProjectGroups !== null) {
+                              for (const group of settledProjectGroups) {
+                                items.push(
+                                  <SidebarSettledProjectLabel
+                                    key={`settled-project:${group.key}`}
+                                    label={group.label}
+                                    project={group.project}
+                                    showIcon={projectIcon}
+                                  />,
+                                );
+                                for (const thread of group.threads) {
+                                  items.push(renderThreadRow(thread, "settled", "shelf:settled"));
+                                }
+                              }
+                            }
                             break;
                         }
                       }

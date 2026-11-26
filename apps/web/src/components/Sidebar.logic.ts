@@ -35,6 +35,7 @@ import {
 import {
   getThreadSortTimestamp,
   planPinnedReorder,
+  sortActiveThreadsByOrderKey,
   sortThreads,
   toSortableTimestamp,
   type ThreadSortInput,
@@ -1101,6 +1102,60 @@ export function groupSidebarThreadsByProject<
   return folders.filter((folder) => folder.threads.length > 0 || keepEmpty(folder.group));
 }
 
+/**
+ * Groups a Settled or Snoozed shelf like the boring sidebar folders, in `groups` order.
+ * Unlike the folders, no thread is left out: one whose project has no group lands in a
+ * trailing unlabeled group.
+ */
+export function groupSidebarShelfByProject<
+  TGroup extends {
+    readonly projectKey: string;
+    readonly displayName: string;
+    readonly memberProjectRefs: ReadonlyArray<{
+      readonly environmentId: EnvironmentId;
+      readonly projectId: string;
+    }>;
+  },
+  TThread extends Pick<SidebarThreadSummary, "environmentId" | "projectId">,
+>(
+  groups: readonly TGroup[],
+  threads: readonly TThread[],
+  keyOf: (thread: TThread) => string,
+): Array<{ key: string; label: string | null; project: TGroup | null; threads: TThread[] }> {
+  const grouped = groupSidebarThreadsByProject(groups, threads, () => false);
+  const placed = new Set(grouped.flatMap((folder) => folder.threads.map(keyOf)));
+  const rest = threads.filter((thread) => !placed.has(keyOf(thread)));
+  return [
+    ...grouped.map((folder) => ({
+      key: folder.group.projectKey,
+      label: folder.group.displayName as string | null,
+      project: folder.group as TGroup | null,
+      threads: folder.threads,
+    })),
+    ...(rest.length > 0 ? [{ key: "other", label: null, project: null, threads: rest }] : []),
+  ];
+}
+
+/**
+ * The view menu's Sort by orders Active in every grouping. Manual keeps the order the user
+ * dragged; the time orders keep that order only to break ties.
+ */
+export function sortSidebarActiveThreads<
+  T extends Parameters<typeof sortActiveThreadsByOrderKey>[0][number] &
+    Parameters<typeof getThreadSortTimestamp>[0],
+>(threads: readonly T[], sortOrder: SidebarProjectSortOrder): T[] {
+  const byKey = sortActiveThreadsByOrderKey(threads);
+  if (sortOrder === "manual") return byKey;
+  return byKey
+    .map((thread, index) => ({
+      thread,
+      index,
+      timestamp: getThreadSortTimestamp(thread, sortOrder),
+    }))
+    .toSorted((left, right) => right.timestamp - left.timestamp || left.index - right.index)
+    .map(({ thread }) => thread);
+}
+
 export type SidebarV2TopStatusKind =
   | "approval"
   | "done"
@@ -1123,7 +1178,6 @@ export function firstValidTimestampMs(
   return 0;
 }
 
-export { sortActiveThreadsByOrderKey as sortThreadsForSidebar } from "@t3tools/client-runtime/state/thread-sort";
 export {
   sortInboxThreadsByReturn,
   sortWorkingThreadsBySend,

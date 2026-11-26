@@ -40,6 +40,7 @@ export function sidebarFolderRowId(projectKey: string) {
  */
 export const SidebarProjectFolderHeader = memo(function SidebarProjectFolderHeader(props: {
   group: SidebarProjectSnapshot;
+  showIcon: boolean;
   collapsed: boolean;
   hiddenThreads: readonly EnvironmentThreadShell[];
   onToggle: (group: SidebarProjectSnapshot) => void;
@@ -86,9 +87,9 @@ export const SidebarProjectFolderHeader = memo(function SidebarProjectFolderHead
             contextMenuSourceOf(event),
           );
         }}
-        className="flex h-8 w-full cursor-pointer items-center gap-2.5 rounded-(--control-radius) px-(--sidebar-row-content-inset) text-left outline-none hover:bg-sidebar-row-hover focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+        className="flex h-8 w-full cursor-pointer items-center gap-2.5 rounded-(--control-radius) ps-1.5 pe-(--sidebar-row-content-inset) text-left outline-none hover:bg-sidebar-row-hover focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
       >
-        <ProjectFavicon project={group} className="size-4 shrink-0" />
+        {props.showIcon ? <ProjectFavicon project={group} className="size-4 shrink-0" /> : null}
         <span className="min-w-0 flex-1 truncate text-sm font-medium text-sidebar-foreground/90">
           {group.displayName}
         </span>
@@ -136,3 +137,25 @@ export const SidebarProjectFolderHeader = memo(function SidebarProjectFolderHead
     </li>
   );
 });
+
+/** Names a project's rows inside the Settled section; settled groups don't collapse. */
+export function SidebarSettledProjectLabel(props: {
+  label: string | null;
+  project: SidebarProjectSnapshot | null;
+  showIcon: boolean;
+}) {
+  return (
+    <li
+      aria-hidden
+      data-testid="sidebar-settled-project"
+      className="mt-2 flex h-7 list-none items-center gap-2.5 ps-1.5 first:mt-0"
+    >
+      {props.showIcon && props.project ? (
+        <ProjectFavicon project={props.project} className="size-4 shrink-0" />
+      ) : null}
+      <span className="min-w-0 truncate text-sm font-medium text-sidebar-foreground/70">
+        {props.label ?? <T>Other</T>}
+      </span>
+    </li>
+  );
+}
