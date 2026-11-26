@@ -3216,7 +3216,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "på datorn som öppnade den här sidan"]
+      "c": [
+        " ",
+        "på datorn som öppnade den här sidan"
+      ]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3228,7 +3231,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "· den som kör den får den här åtkomsten"]
+      "c": [
+        " ",
+        "· den som kör den får den här åtkomsten"
+      ]
     }
   ],
   "c54cc9c75db9dc58": "Godkänn bara en inloggning som du själv precis har startat.",
@@ -8926,10 +8932,6 @@
   "93c4c53562d30a98": "När du ber om det visar agenter en kort rapport om T3 Code och skickar den till T3-teamet om du godkänner den.",
   "cd9ee803e8727017": "Agenter rapporterar även problem med T3 Code som de själva stöter på, till exempel ett T3-verktyg som misslyckats.",
   "45fa271ea0e1ac8e": "Beta",
-  "3a678332fc7142f7": "Gruppera trådar i sidofältet i projektmappar. Fästa trådar ligger överst, och Snoozade och Klara ligger under mapparna.",
-  "e4e91d155cb6a9b4": "Enkelt sidofält (gruppera per projekt)",
-  "f079556d67367fe7": "Visa trådar i mappar på två rader: titeln, sedan gren, pull request och agent.",
-  "ac1e5c94d1ad3c6a": "Mapprader på två rader",
   "9ae293971d93c819": "Dela en tråd med en gäst som följer den live i en webbläsare och skickar meddelanden som du godkänner. Logga in på T3 Connect för att använda gästlänkar.",
   "0aa5406ac4d7f7c7": "Gästlänkar",
   "f0e853acd2006d53": "Länkade miljöer",
@@ -10278,8 +10280,6 @@
   "0dde92a0e2d0258a": "Senaste",
   "cbf6a6bbc17e75e1": "Visa ett popup-meddelande när en annan tråd blir klar, misslyckas eller behöver indata eller godkännande medan appen har fokus.",
   "83ca942c7163904f": "Slå ihop matchande repon från olika miljöer.",
-  "609da998ca13521e": "Ordningen på projekt i sidofältets projektväljare och kommandopaletten.",
-  "b4c541137a76b351": "Fäll in arbetande och övervakande trådar i avsnittet Arbetar. De återvänder överst i inkorgen när de behöver dig. Det enkla sidofältet i Labs har inget avsnitt Arbetar.",
   "e815f49e5abedcfd": "Fråga innan en tråd lossas från avsnittet för fästa trådar.",
   "41210f99adeeba78": "Kräv ett andra klick på arkiveringsåtgärden innan en tråd arkiveras.",
   "84f3d2cefc8d2a74": "Fråga innan en tråd och dess chatthistorik tas bort.",
@@ -11877,8 +11877,6 @@
   "6751449c6188912d": "användning kvot hastighetsbegränsning återställning vakna återhämta fortsätt",
   "0aedae6a82c09429": "användning kvot hastighetsbegränsning återställning återhämta fortsätt",
   "85dbcfec2d41f534": "dölj fäll ihop pågående bevakning trådar inkorg sidofält hylla",
-  "405a2295152c9d77": "beta mappar projektträd klassiskt sidofält",
-  "de42c4690914cee4": "beta enkelt sidofält mapprader flera rader gren pull request detaljer",
   "8f71bc7c325e23e3": "dölj verktygsanrop kommandon redigeringar sökningar arbetslogg aktivitet tyst chatt zen bara slutliga svar",
   "5a3af411a0d5354c": "tillgänglighet a11y skärmläsare nvda jaws voiceover orca skärmläsaren tal meddela läs upp meddelanden aktivitet steg",
   "d443390c4d2dcfd4": "tillgänglighet a11y skärmläsare nvda jaws voiceover orca skärmläsaren fönstertitel fliktitel alt tab aktivitetsfält trådstatus ordning arbetar godkännande",
@@ -12993,5 +12991,29 @@
   "99451a5d2d40440f": "Återkallad av {by}.",
   "3ee30a50b70fffab": "Återkallad av {by}: {reason}",
   "92e129bf413a1220": "återkallad",
-  "800966eb58181745": "Kontrollerar vilka språk modellen stöder…"
+  "800966eb58181745": "Kontrollerar vilka språk modellen stöder…",
+  "86cedd0177f98775": "Order of projects and active sidebar threads. Manual keeps the order you drag threads into. Also set from the sidebar view options.",
+  "440d1e217d7a9f0c": "Fold working and monitoring threads into a Working section. They return to the active list when they need you.",
+  "c18895a15ac8a37f": "Other",
+  "348c0c8c1142aa1a": "After details",
+  "dcc557ac3b2a9399": "Before project",
+  "28f281b42d946320": "Before thread",
+  "92835db7102f15dc": "Before time",
+  "6e623f9664bdfe68": "After time",
+  "62418e8690797802": "None",
+  "b3217a28f40ef34b": "Status",
+  "11cfb497fbee51d9": "Project",
+  "6b4e51dfeb2cc328": "Last updated",
+  "080a04489c5d94d2": "Created",
+  "409b6510983ac25c": "Manual",
+  "46edecc2189d4076": "View options",
+  "83738c6520ef6dcb": "Group by",
+  "85dce58cc95211df": "Show",
+  "61ae85d4299bb698": "Working section",
+  "ee17bba6cb048438": "Project icon",
+  "8645583332ec940f": "Project name",
+  "7a00fe41ca0d9a38": "Thread details line",
+  "b5b00075e4db82ec": "Agent icon",
+  "6eef86347ea62144": "Apply to Settled etc",
+  "c40115e155bed1ee": "Apply view settings to Settled, Snoozed"
 }

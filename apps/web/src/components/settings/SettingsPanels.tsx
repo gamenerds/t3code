@@ -541,7 +541,8 @@ export function useSettingsRestore(onRestored?: () => void) {
     ...(settings.sidebarProjectGroupingMode !== DEFAULT_UNIFIED_SETTINGS.sidebarProjectGroupingMode
       ? [gt("Project Grouping")]
       : []),
-    ...(settings.sidebarProjectSortOrder !== DEFAULT_UNIFIED_SETTINGS.sidebarProjectSortOrder
+    ...(settings.sidebarProjectSortOrder !== DEFAULT_UNIFIED_SETTINGS.sidebarProjectSortOrder ||
+    settings.sidebarThreadSortOrder !== DEFAULT_UNIFIED_SETTINGS.sidebarThreadSortOrder
       ? [gt("Project order")]
       : []),
     ...(settings.sidebarWorkingShelfEnabled !== DEFAULT_UNIFIED_SETTINGS.sidebarWorkingShelfEnabled
@@ -738,6 +739,7 @@ export function useSettingsRestore(onRestored?: () => void) {
       panelAnimationDurationMs: DEFAULT_UNIFIED_SETTINGS.panelAnimationDurationMs,
       sidebarProjectGroupingMode: DEFAULT_UNIFIED_SETTINGS.sidebarProjectGroupingMode,
       sidebarProjectSortOrder: DEFAULT_UNIFIED_SETTINGS.sidebarProjectSortOrder,
+      sidebarThreadSortOrder: DEFAULT_UNIFIED_SETTINGS.sidebarThreadSortOrder,
       sidebarWorkingShelfEnabled: DEFAULT_UNIFIED_SETTINGS.sidebarWorkingShelfEnabled,
       sidebarAutoSettleAfterDays: DEFAULT_UNIFIED_SETTINGS.sidebarAutoSettleAfterDays,
       sidebarAutoSettleKeepPullRequests: DEFAULT_UNIFIED_SETTINGS.sidebarAutoSettleKeepPullRequests,
@@ -916,7 +918,12 @@ export function GeneralSettingsPanel() {
         />
         <SettingsRow
           {...setting("project-order")}
-          description={<T>Order of projects in the sidebar project picker and command palette.</T>}
+          description={
+            <T>
+              Order of projects and active sidebar threads. Manual keeps the order you drag threads
+              into. Also set from the sidebar view options.
+            </T>
+          }
           resetAction={
             settings.sidebarProjectSortOrder !==
             DEFAULT_UNIFIED_SETTINGS.sidebarProjectSortOrder ? (
@@ -925,6 +932,7 @@ export function GeneralSettingsPanel() {
                 onClick={() =>
                   updateSettings({
                     sidebarProjectSortOrder: DEFAULT_UNIFIED_SETTINGS.sidebarProjectSortOrder,
+                    sidebarThreadSortOrder: DEFAULT_UNIFIED_SETTINGS.sidebarThreadSortOrder,
                   })
                 }
               />
@@ -935,7 +943,12 @@ export function GeneralSettingsPanel() {
               value={settings.sidebarProjectSortOrder}
               onValueChange={(value) => {
                 if (isSidebarProjectSortOrder(value)) {
-                  updateSettings({ sidebarProjectSortOrder: value });
+                  // The time orders also set the command palette's thread order, as the sidebar menu does.
+                  updateSettings(
+                    value === "manual"
+                      ? { sidebarProjectSortOrder: value }
+                      : { sidebarProjectSortOrder: value, sidebarThreadSortOrder: value },
+                  );
                 }
               }}
             >
@@ -958,8 +971,8 @@ export function GeneralSettingsPanel() {
           {...setting("working-shelf")}
           description={
             <T>
-              Fold working and monitoring threads into a Working section. They return to the top of
-              the inbox when they need you. The boring sidebar in Labs has no Working section.
+              Fold working and monitoring threads into a Working section. They return to the active
+              list when they need you.
             </T>
           }
           resetAction={

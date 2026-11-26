@@ -37,7 +37,7 @@ import {
   type ScopedThreadRef,
 } from "@t3tools/contracts";
 
-import type { TimestampFormat } from "@t3tools/contracts/settings";
+import type { AgentIconPositionWhenCollapsed, TimestampFormat } from "@t3tools/contracts/settings";
 import {
   AlarmClockIcon,
   AlarmClockOffIcon,
@@ -224,6 +224,35 @@ function terminalProcessLabel(count: number, resolve: MessageResolver): string {
       "{count, plural, one {{count} terminal process running} other {{count} terminal processes running}}",
       { count },
     ),
+  );
+}
+
+/** The agent the thread used last, for folder and collapsed rows. */
+function resolveLastProviderEntry(
+  thread: SidebarThreadSummary,
+  providerEntryByInstanceId: ReadonlyMap<string, SidebarProviderEntry>,
+): SidebarProviderEntry | null {
+  const stack = resolveThreadProviderStack(thread);
+  return providerEntryByInstanceId.get(stack[stack.length - 1]!) ?? null;
+}
+
+function SidebarLastProviderIcon(props: {
+  entry: SidebarProviderEntry;
+  providerEntryByInstanceId: ReadonlyMap<string, SidebarProviderEntry>;
+}) {
+  const { entry } = props;
+  return (
+    <span aria-hidden className="inline-flex size-4 shrink-0 items-center justify-center">
+      <ProviderInstanceIcon
+        driverKind={entry.driverKind}
+        displayName={entry.displayName}
+        accentColor={entry.accentColor}
+        acpRegistryAgentId={entry.acpRegistryAgentId}
+        acpRegistryIconUrl={entry.acpRegistryIconUrl}
+        showBadge={shouldShowInstanceBadge(entry, props.providerEntryByInstanceId.values())}
+        size="compact"
+      />
+    </span>
   );
 }
 
@@ -607,6 +636,16 @@ type SidebarThreadRowProps = {
   // "folder" is a one-line row inside a boring sidebar project folder;
   // "folder-multiline" adds the card's environment and PR line under it.
   variant: "card" | "slim" | "folder" | "folder-multiline";
+  /** Card rows only: drops the details line and moves its agent icon beside the title. */
+  hideDetailsLine?: boolean;
+  /** Card rows only: one line of "project: title" and the time. */
+  collapsed?: boolean;
+  collapsedAgentIcon?: AgentIconPositionWhenCollapsed;
+  /** Hides every agent icon on the row (project grouping's Agent icon toggle). */
+  hideAgentIcon?: boolean;
+  hideProjectIcon?: boolean;
+  /** Collapsed card rows only. */
+  hideProjectName?: boolean;
   navigationParent?: string | undefined;
   variantAction: SidebarSweepAction;
   settlementSupported: boolean;
@@ -1275,14 +1314,48 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
     )
   ) : null;
 
+  const lastProviderEntry = resolveLastProviderEntry(thread, props.providerEntryByInstanceId);
+  // Icons beside the time give way to the row's controls, like the time does.
+  const trailingAgentIconHidden =
+    snoozeMenuOpen || sortable?.isDragging === true || props.sweepAction !== null;
+  const lastProviderIcon =
+    lastProviderEntry === null ? null : (
+      <SidebarLastProviderIcon
+        entry={lastProviderEntry}
+        providerEntryByInstanceId={props.providerEntryByInstanceId}
+      />
+    );
+  const collapsedIconAt = (position: AgentIconPositionWhenCollapsed) =>
+    props.collapsed &&
+    (props.collapsedAgentIcon ?? "none") === position &&
+    !(trailingAgentIconHidden && (position === "afterThreadName" || position === "afterTime"))
+      ? lastProviderIcon
+      : null;
+  const showCollapsedProjectIcon = props.project !== null && !props.hideProjectIcon;
+  const showCollapsedProjectName = props.projectDisplayName !== null && !props.hideProjectName;
+  const collapsedProject = (
+    <>
+      {collapsedIconAt("beforeProject")}
+      {showCollapsedProjectIcon && props.project ? (
+        <ProjectFavicon project={props.project} className="size-4 shrink-0" />
+      ) : null}
+      {showCollapsedProjectName ? (
+        // Capped so a long project name can't squeeze the title out of the row.
+        <span className="max-w-[30%] shrink-0 truncate font-normal text-secondary-label text-xs">
+          {props.projectDisplayName}
+        </span>
+      ) : null}
+    </>
+  );
   const diff = latestRunDiff(thread);
   // Only the trailing icons would remain, so the row moves them to the title line instead.
   const metaLineEmpty =
-    props.environmentLabel === null &&
-    prBadge === null &&
-    issueBadge === null &&
-    diff === null &&
-    runningTerminalIds.length === 0;
+    props.hideDetailsLine === true ||
+    (props.environmentLabel === null &&
+      prBadge === null &&
+      issueBadge === null &&
+      diff === null &&
+      runningTerminalIds.length === 0);
   const metaLine = metaLineEmpty ? null : (
     <div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-secondary-label text-xs">
       {props.environmentLabel !== null ? (
@@ -1306,17 +1379,29 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
           <span className="text-diff-deletion-foreground">−{formatDiffCount(diff.deletions)}</span>
         </span>
       ) : null}
-      <span
-        aria-hidden
-        className="pointer-events-none ml-auto inline-flex shrink-0 items-center gap-1"
-      >
-        <SidebarProviderStack
-          thread={thread}
-          providerEntryByInstanceId={props.providerEntryByInstanceId}
-        />
-      </span>
+      {/* Collapsed rows place the agent icon by agentIconPositionWhenCollapsed instead. */}
+      {props.collapsed || props.hideAgentIcon ? null : (
+        <span
+          aria-hidden
+          className="pointer-events-none ml-auto inline-flex shrink-0 items-center gap-1"
+        >
+          <SidebarProviderStack
+            thread={thread}
+            providerEntryByInstanceId={props.providerEntryByInstanceId}
+          />
+        </span>
+      )}
     </div>
   );
+  // Collapsed rows drop the second line when nothing would be on it.
+  const showCollapsedSecondLine =
+    props.collapsed === true &&
+    !props.hideDetailsLine &&
+    (showCollapsedProjectIcon ||
+      showCollapsedProjectName ||
+      metaLine !== null ||
+      collapsedIconAt("beforeProject") !== null ||
+      collapsedIconAt("none") !== null);
   const titleLineIcons = metaLineEmpty ? (
     <span aria-hidden className="inline-flex shrink-0 items-center gap-1">
       <SidebarProviderStack
@@ -1359,8 +1444,8 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                 multiline
                   ? "flex flex-col justify-center px-2.5 py-1.5"
                   : "flex h-9 items-center gap-2.5 px-2.5",
-                // Lines titles up with the folder name, past its chevron and icon.
-                inFolder && "ps-9",
+                // A small indent under the folder name; the agent icon leads the title.
+                inFolder && "ps-4",
               )}
               onClick={handleClick}
               onPointerEnter={intentPrefetch.onPointerEnter}
@@ -1374,7 +1459,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
         >
           {/* `contents` keeps one-line rows a single flex row. */}
           <div className={multiline ? "flex h-6 min-w-0 items-center gap-2.5" : "contents"}>
-            {inFolder ? null : (
+            {multiline || inFolder || !props.project || props.hideProjectIcon ? null : (
               <span
                 className={cn(
                   "flex shrink-0 items-center transition-opacity",
@@ -1382,14 +1467,12 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                     "opacity-40 grayscale group-focus-within/sidebar-row:opacity-100 group-focus-within/sidebar-row:grayscale-0 group-hover/sidebar-row:opacity-100 group-hover/sidebar-row:grayscale-0",
                 )}
               >
-                {props.project ? (
-                  <ProjectFavicon project={props.project} className="size-4" />
-                ) : null}
+                <ProjectFavicon project={props.project} className="size-4" />
               </span>
             )}
             {draftIndicator}
             {title}
-            {multiline ? titleLineIcons : null}
+            {multiline && !props.hideAgentIcon ? titleLineIcons : null}
             {pinIndicator}
             {multiline ? null : terminalStatusIcon}
             {multiline ? null : issueBadge}
@@ -1445,7 +1528,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                         </>
                       }
                     />
-                  ) : inFolder && topStatus ? (
+                  ) : inFolder && topStatus && variantAction === "settle" ? (
                     // Folder rows have no status line, so the status takes the time slot.
                     <span
                       className={cn(
@@ -1531,6 +1614,14 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                 {jumpHintLabel ? <JumpHintBadge label={jumpHintLabel} /> : null}
               </span>
             )}
+            {/* Folder rows show the agent just after the time, hiding with it on hover. */}
+            {inFolder && !multiline && !props.hideAgentIcon && !trailingAgentIconHidden ? (
+              lastProviderIcon === null ? null : (
+                <span className="flex shrink-0 group-any-hover/sidebar-row:hidden group-has-[:focus-visible]/sidebar-row:hidden">
+                  {lastProviderIcon}
+                </span>
+              )
+            ) : null}
             {props.sweepAction !== null ? dragDestination : null}
           </div>
           {multiline ? metaLine : null}
@@ -1549,6 +1640,11 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
       className={cn(
         "list-none py-0.5 [content-visibility:auto] [contain-intrinsic-size:auto_78px]",
         metaLineEmpty && "[contain-intrinsic-size:auto_60px]",
+        // Estimates for rows not drawn yet; collapsed rows are one or two short lines.
+        props.collapsed &&
+          (showCollapsedSecondLine
+            ? "[contain-intrinsic-size:auto_54px]"
+            : "[contain-intrinsic-size:auto_36px]"),
         sortable?.isDragging && "relative z-20",
       )}
     >
@@ -1580,18 +1676,36 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
         <div
           className={cn(
             "relative z-10 h-[4.875rem] px-(--sidebar-row-content-inset) py-(--sidebar-content-inset)",
-            metaLineEmpty && "h-auto",
+            (metaLineEmpty || props.collapsed) && "h-auto",
           )}
         >
           <div className="flex h-5 min-w-0 items-center gap-1.5">
             {draftIndicator}
-            {props.project ? (
+            {props.project && !props.collapsed && !props.hideProjectIcon ? (
               <ProjectFavicon project={props.project} className="size-4 shrink-0" />
             ) : null}
             {/* Left of the status slot, the pin would slide when hover swaps the
                 label for the wider row controls. */}
             {pinIndicator}
-            {props.projectDisplayName ? (
+            {props.collapsed ? (
+              <span className="flex min-w-0 flex-1 items-center gap-1.5">
+                {/* With the details line on, the project moves down to it. */}
+                {props.hideDetailsLine ? collapsedProject : null}
+                {/* "Before thread" stays on the title line even when the project moves down. */}
+                {collapsedIconAt("afterProject")}
+                {title}
+                {isRegeneratingTitle ? (
+                  <span role="status" className="sr-only">
+                    <T>Regenerating title</T>
+                  </span>
+                ) : null}
+                {collapsedIconAt("afterThreadName") ? (
+                  <span className="flex shrink-0 group-any-hover/sidebar-row:hidden group-has-[:focus-visible]/sidebar-row:hidden">
+                    {collapsedIconAt("afterThreadName")}
+                  </span>
+                ) : null}
+              </span>
+            ) : props.projectDisplayName ? (
               <span
                 className={cn("min-w-0 flex-1 truncate font-normal text-secondary-label text-xs")}
               >
@@ -1732,7 +1846,7 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                         }
                       >
                         <CheckIcon className="size-3.5" />
-                        <T>Settle</T>
+                        {props.collapsed ? null : <T>Settle</T>}
                       </SharedTooltipTrigger>
                     ) : null}
                   </span>
@@ -1740,18 +1854,37 @@ const SidebarThreadRow = memo(function SidebarThreadRow(props: SidebarThreadRowP
                 {jumpHintLabel ? <JumpHintBadge label={jumpHintLabel} /> : null}
               </span>
             )}
-            {props.sweepAction !== null ? dragDestination : null}
-          </div>
-          <div className="mt-1 flex min-w-0 items-center gap-1.5">
-            {title}
-            {isRegeneratingTitle ? (
-              <span role="status" className="sr-only">
-                <T>Regenerating title</T>
+            {collapsedIconAt("afterTime") ? (
+              <span className="flex shrink-0 group-any-hover/sidebar-row:hidden group-has-[:focus-visible]/sidebar-row:hidden">
+                {collapsedIconAt("afterTime")}
               </span>
             ) : null}
-            {titleLineIcons}
+            {props.sweepAction !== null ? dragDestination : null}
           </div>
-          {metaLine}
+          {showCollapsedSecondLine ? (
+            <div className="mt-0.5 flex min-w-0 items-center gap-1.5">
+              {collapsedProject}
+              {metaLine ? <div className="min-w-0 flex-1 [&>div]:mt-0">{metaLine}</div> : null}
+              {/* "none" reads as "After details" while the details line shows. */}
+              {collapsedIconAt("none") ? (
+                <span className="ms-auto flex shrink-0">{collapsedIconAt("none")}</span>
+              ) : null}
+            </div>
+          ) : null}
+          {props.collapsed ? null : (
+            <>
+              <div className="mt-1 flex min-w-0 items-center gap-1.5">
+                {title}
+                {isRegeneratingTitle ? (
+                  <span role="status" className="sr-only">
+                    <T>Regenerating title</T>
+                  </span>
+                ) : null}
+                {props.hideAgentIcon ? null : titleLineIcons}
+              </div>
+              {metaLine}
+            </>
+          )}
         </div>
       </ThreadHoverCardTrigger>
     </li>

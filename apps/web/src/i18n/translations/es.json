@@ -3216,7 +3216,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "en el ordenador que abrió esta página"]
+      "c": [
+        " ",
+        "en el ordenador que abrió esta página"
+      ]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3228,7 +3231,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "· quien lo ejecute obtiene este acceso"]
+      "c": [
+        " ",
+        "· quien lo ejecute obtiene este acceso"
+      ]
     }
   ],
   "c54cc9c75db9dc58": "Aprueba solo un inicio de sesión que acabes de iniciar.",
@@ -8918,10 +8924,6 @@
   "93c4c53562d30a98": "Cuando lo pides, los agentes te muestran un breve informe sobre T3 Code y lo envían al equipo de T3 si lo apruebas.",
   "cd9ee803e8727017": "Los agentes también informan por su cuenta de los problemas que encuentran en T3 Code, como una herramienta de T3 que falla.",
   "45fa271ea0e1ac8e": "Beta",
-  "3a678332fc7142f7": "Agrupa los hilos de la barra lateral en carpetas de proyecto. Los hilos fijados quedan arriba, y Pospuestos y Resueltos quedan debajo de las carpetas.",
-  "e4e91d155cb6a9b4": "Barra lateral simple (agrupar por proyecto)",
-  "f079556d67367fe7": "Muestra los hilos de las carpetas en dos líneas: el título y, debajo, la rama, la pull request y el agente.",
-  "ac1e5c94d1ad3c6a": "Filas de carpeta en dos líneas",
   "9ae293971d93c819": "Comparte un hilo con un invitado que lo ve en directo en un navegador y envía mensajes que tú apruebas. Inicia sesión en T3 Connect para usar enlaces de invitado.",
   "0aa5406ac4d7f7c7": "Enlaces de invitado",
   "f0e853acd2006d53": "Entornos vinculados",
@@ -10268,8 +10270,6 @@
   "0dde92a0e2d0258a": "Última",
   "cbf6a6bbc17e75e1": "Muestra un aviso cuando otro hilo termina, falla o necesita una respuesta o aprobación mientras la app está en primer plano.",
   "83ca942c7163904f": "Combina los repositorios coincidentes de distintos entornos.",
-  "609da998ca13521e": "Orden de los proyectos en el selector de la barra lateral y en la paleta de comandos.",
-  "b4c541137a76b351": "Agrupa los hilos activos y en seguimiento en la sección En curso. Vuelven arriba de la bandeja de entrada cuando te necesitan. La barra lateral simple (en Experimentos) no tiene sección En curso.",
   "e815f49e5abedcfd": "Pregunta antes de desfijar un hilo de la sección de fijados.",
   "41210f99adeeba78": "Pide un segundo clic en la acción de archivar antes de archivar un hilo.",
   "84f3d2cefc8d2a74": "Pregunta antes de eliminar un hilo y su historial de chat.",
@@ -11864,8 +11864,6 @@
   "6751449c6188912d": "uso cuota límite de uso restablecer reactivar recuperar continuar",
   "0aedae6a82c09429": "uso cuota límite de uso restablecer recuperar continuar",
   "85dbcfec2d41f534": "ocultar agrupar en ejecución seguimiento hilos bandeja de entrada barra lateral estante en curso",
-  "405a2295152c9d77": "beta carpetas proyecto árbol barra lateral clásica",
-  "de42c4690914cee4": "beta barra lateral simple boring sidebar filas de carpetas multilínea rama pull request detalles",
   "8f71bc7c325e23e3": "ocultar llamadas a herramientas comandos ediciones búsquedas registro de trabajo actividad chat silencioso zen solo respuestas finales",
   "5a3af411a0d5354c": "accesibilidad a11y lector de pantalla nvda jaws voiceover orca narrador voz anunciar leer en voz alta mensajes actividad pasos",
   "d443390c4d2dcfd4": "accesibilidad a11y lector de pantalla nvda jaws voiceover orca narrador título de ventana título de pestaña alt tab barra de tareas estado del hilo orden en curso aprobación",
@@ -12981,5 +12979,29 @@
   "99451a5d2d40440f": "Retirada por {by}.",
   "3ee30a50b70fffab": "Retirada por {by}: {reason}",
   "92e129bf413a1220": "retirada",
-  "800966eb58181745": "Comprobando qué idiomas admite el modelo…"
+  "800966eb58181745": "Comprobando qué idiomas admite el modelo…",
+  "86cedd0177f98775": "Order of projects and active sidebar threads. Manual keeps the order you drag threads into. Also set from the sidebar view options.",
+  "440d1e217d7a9f0c": "Fold working and monitoring threads into a Working section. They return to the active list when they need you.",
+  "c18895a15ac8a37f": "Other",
+  "348c0c8c1142aa1a": "After details",
+  "dcc557ac3b2a9399": "Before project",
+  "28f281b42d946320": "Before thread",
+  "92835db7102f15dc": "Before time",
+  "6e623f9664bdfe68": "After time",
+  "62418e8690797802": "None",
+  "b3217a28f40ef34b": "Status",
+  "11cfb497fbee51d9": "Project",
+  "6b4e51dfeb2cc328": "Last updated",
+  "080a04489c5d94d2": "Created",
+  "409b6510983ac25c": "Manual",
+  "46edecc2189d4076": "View options",
+  "83738c6520ef6dcb": "Group by",
+  "85dce58cc95211df": "Show",
+  "61ae85d4299bb698": "Working section",
+  "ee17bba6cb048438": "Project icon",
+  "8645583332ec940f": "Project name",
+  "7a00fe41ca0d9a38": "Thread details line",
+  "b5b00075e4db82ec": "Agent icon",
+  "6eef86347ea62144": "Apply to Settled etc",
+  "c40115e155bed1ee": "Apply view settings to Settled, Snoozed"
 }

@@ -3216,7 +3216,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "no computador que abriu esta página"]
+      "c": [
+        " ",
+        "no computador que abriu esta página"
+      ]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3228,7 +3231,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "· quem executar recebe este acesso"]
+      "c": [
+        " ",
+        "· quem executar recebe este acesso"
+      ]
     }
   ],
   "c54cc9c75db9dc58": "Aprove apenas um login que você acabou de iniciar.",
@@ -8918,10 +8924,6 @@
   "93c4c53562d30a98": "Quando você pede, os agentes mostram um breve relatório sobre o T3 Code e o enviam para a equipe do T3 se você aprovar.",
   "cd9ee803e8727017": "Os agentes também relatam por conta própria os problemas que encontram no T3 Code, como uma ferramenta do T3 que falhou.",
   "45fa271ea0e1ac8e": "Beta",
-  "3a678332fc7142f7": "Agrupa as threads da barra lateral em pastas de projeto. As threads fixadas ficam no topo, e Adiadas e Concluídas ficam abaixo das pastas.",
-  "e4e91d155cb6a9b4": "Barra lateral sem graça (agrupar por projeto)",
-  "f079556d67367fe7": "Mostra as threads das pastas em duas linhas: o título e, abaixo, o branch, o pull request e o agente.",
-  "ac1e5c94d1ad3c6a": "Linhas de pasta em duas linhas",
   "9ae293971d93c819": "Compartilhe uma thread com um convidado que a acompanha ao vivo no navegador e envia mensagens que você aprova. Entre no T3 Connect para usar links de convidado.",
   "0aa5406ac4d7f7c7": "Links de convidado",
   "f0e853acd2006d53": "Ambientes vinculados",
@@ -10270,8 +10272,6 @@
   "0dde92a0e2d0258a": "Mais recente",
   "cbf6a6bbc17e75e1": "Mostra um aviso quando outra thread termina, falha ou precisa de uma resposta ou aprovação enquanto o app está em foco.",
   "83ca942c7163904f": "Combina repositórios correspondentes entre ambientes.",
-  "609da998ca13521e": "Ordem dos projetos no seletor da barra lateral e na paleta de comandos.",
-  "b4c541137a76b351": "Agrupa as threads em andamento e em monitoramento em uma seção Trabalhando. Elas voltam ao topo da caixa de entrada quando precisam de você. A barra lateral sem graça do Labs não tem seção Trabalhando.",
   "e815f49e5abedcfd": "Pergunta antes de desafixar uma thread da seção de fixadas.",
   "41210f99adeeba78": "Exige um segundo clique para confirmar antes de arquivar uma thread.",
   "84f3d2cefc8d2a74": "Pergunta antes de excluir uma thread e o histórico dela.",
@@ -11869,8 +11869,6 @@
   "6751449c6188912d": "uso cota limite de taxa redefinir despertar recuperar continuar",
   "0aedae6a82c09429": "uso cota limite de taxa redefinir recuperar continuar",
   "85dbcfec2d41f534": "ocultar agrupar em execução monitoramento threads caixa de entrada barra lateral prateleira",
-  "405a2295152c9d77": "beta pastas projeto árvore barra lateral clássica",
-  "de42c4690914cee4": "beta barra lateral sem graça pasta linhas várias linhas branch pull request detalhes",
   "8f71bc7c325e23e3": "ocultar chamadas de ferramentas comandos edições pesquisas registro de trabalho atividade chat silencioso zen só respostas finais",
   "5a3af411a0d5354c": "acessibilidade a11y leitor de tela nvda jaws voiceover orca narrador fala anunciar ler em voz alta mensagens atividade etapas",
   "d443390c4d2dcfd4": "acessibilidade a11y leitor de tela nvda jaws voiceover orca narrador título da janela título da aba alt tab barra de tarefas status da thread ordem trabalhando aprovação",
@@ -12986,5 +12984,29 @@
   "99451a5d2d40440f": "Retirada por {by}.",
   "3ee30a50b70fffab": "Retirada por {by}: {reason}",
   "92e129bf413a1220": "retirada",
-  "800966eb58181745": "Verificando quais idiomas o modelo suporta…"
+  "800966eb58181745": "Verificando quais idiomas o modelo suporta…",
+  "86cedd0177f98775": "Order of projects and active sidebar threads. Manual keeps the order you drag threads into. Also set from the sidebar view options.",
+  "440d1e217d7a9f0c": "Fold working and monitoring threads into a Working section. They return to the active list when they need you.",
+  "c18895a15ac8a37f": "Other",
+  "348c0c8c1142aa1a": "After details",
+  "dcc557ac3b2a9399": "Before project",
+  "28f281b42d946320": "Before thread",
+  "92835db7102f15dc": "Before time",
+  "6e623f9664bdfe68": "After time",
+  "62418e8690797802": "None",
+  "b3217a28f40ef34b": "Status",
+  "11cfb497fbee51d9": "Project",
+  "6b4e51dfeb2cc328": "Last updated",
+  "080a04489c5d94d2": "Created",
+  "409b6510983ac25c": "Manual",
+  "46edecc2189d4076": "View options",
+  "83738c6520ef6dcb": "Group by",
+  "85dce58cc95211df": "Show",
+  "61ae85d4299bb698": "Working section",
+  "ee17bba6cb048438": "Project icon",
+  "8645583332ec940f": "Project name",
+  "7a00fe41ca0d9a38": "Thread details line",
+  "b5b00075e4db82ec": "Agent icon",
+  "6eef86347ea62144": "Apply to Settled etc",
+  "c40115e155bed1ee": "Apply view settings to Settled, Snoozed"
 }

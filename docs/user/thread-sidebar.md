@@ -108,7 +108,9 @@ edge to pin a thread. Section labels stay readable for the whole drag, and the s
 thread is over takes the accent color. Section labels also
 identify empty sections and a collapsed settled shelf.
 
-Drag within the pinned or active section to change its order. Other rows slide aside to show the
+Drag within the pinned section to change its order. To drag within the active section, set
+**Sort by → Manual** in the sidebar view options; the time orders keep active threads sorted for
+you. Other rows slide aside to show the
 spot where the thread will land. Drops into either section keep the position you choose. On
 mobile, open a thread's menu and choose **Arrange threads**. Drag a handle within or between
 **Pinned** and **Active** to reorder, pin, or unpin. Drop onto the **Settled** divider to
@@ -122,9 +124,9 @@ On web and desktop, the list also animates section changes made with thread acti
 preference. While dragging, rows follow the insertion gap without replaying a second transition
 after the drop.
 
-New threads appear above the active threads you have arranged. Settling clears a thread's active
+With **Sort by → Manual**, new threads appear above the active threads you have arranged. Settling clears a thread's active
 position, so using **Un-settle** returns it to the top. Pinning and snoozing preserve its active
-position until you move it again. Thread activity does not change the order. The settled shelf
+position until you move it again. In Manual, thread activity does not change the order. The settled shelf
 continues to use settlement time.
 
 If dragging is unavailable for one environment, update the T3 Code server running in that
@@ -150,28 +152,33 @@ Threads that are working or waiting on work they will resume from move into a co
 **Working** section below the active list.
 That includes subagents, watched pull requests with checks still running, Claude monitors and
 `sleep` timers, and background commands or other monitors the agent says it is waiting on. A dev server or other process an agent leaves running does not keep a thread
-there. A thread returns to the top of the active list when it finishes, fails, or needs an approval or
-answer. The Working section lists the thread you last sent work to first. Pinned threads stay in
+there. A thread returns to the active list when it finishes, fails, or needs an approval or answer.
+The Working section lists the thread you last sent work to first. Pinned threads stay in
 the pinned section.
 
-This is on by default. Turn it off with **Settings → General → Working section** on web and desktop,
-or **Settings → General → Working section** on iOS and Android. Each device keeps its own
-choice.
+This is on by default. Turn it off with **Settings → General → Working section**, or on web and
+desktop with the sidebar view options (**Show → Working section**). Each
+device keeps its own choice.
 
-While this is on, the active list is ordered by when each thread last came back to you, so you
-cannot drag or move threads within it. Your saved order returns when you turn it off.
+### Choose how the sidebar looks
 
-### Group threads by project (beta)
+On web and desktop, the view options button next to the search field sets how the sidebar shows
+threads. **Sort by** orders active threads (and project folders) by
+when you last sent a message, when they were created, or by hand (**Manual**). **Show** turns parts of each row on and
+off, such as the project icon, the details line, and the agent icon. When grouped by status,
+**Collapsed** fits each thread on one line. Each device keeps its own choices.
 
-Turn on **Settings → Labs → Boring sidebar (group by project)** on web and desktop to put active
-threads in a folder for each project. Pinned projects come first. A project with no active
+### Group threads by project
+
+Choose **Group by → Project** in the view options to put active threads in a folder for each
+project. Pinned projects come first. A project with no active
 threads has no folder unless it is pinned or you pick it in the project filter. An archived
 project's folder comes last and shows only while it has active threads. Click a folder to open or
 close it. A closed folder shows how many threads it holds, and a dot when one of them
 needs you. Use the pen button on a folder, or right-click it, to start a thread in that project.
-Pinned threads stay above the folders, and Snoozed and Settled stay below them. In this mode you
-can drag a thread onto the composer to mention it, but not within the sidebar, and the Working
-section is off. Each device keeps its own choice.
+Pinned threads stay above the folders, and Working, Snoozed, and Settled stay below them. Turn on
+**Show → Apply to Settled etc** to group Settled and Snoozed by project too. In this mode you can
+drag a thread onto the composer to mention it, but not within the sidebar.
 
 ## Settle finished work
 

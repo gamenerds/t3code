@@ -9,6 +9,7 @@ import {
   EnvironmentId,
   type LocalApi,
   ProjectId,
+  ProviderInstanceId,
   ThreadId,
   type ScopedThreadRef,
 } from "@t3tools/contracts";
@@ -190,6 +191,58 @@ describe("sidebar project folder new thread", () => {
     await userEvent.click(screen.getByRole("button", { name: "New thread in acme/demo-repo" }));
 
     expect(startThread).toHaveBeenCalledExactlyOnceWith(dev1ProjectRef);
+  });
+});
+
+describe("sidebar project folders with the Working section", () => {
+  it("moves a running thread out of its project folder into Working", async () => {
+    using stack = new DisposableStack();
+    const previousSettings = getClientSettings();
+    stack.defer(() => __setClientSettingsForTests(previousSettings));
+    __setClientSettingsForTests({
+      ...DEFAULT_CLIENT_SETTINGS,
+      boringSidebarEnabled: true,
+      sidebarWorkingShelfEnabled: true,
+    });
+    const app = project("app");
+    const thread = (id: string, title: string, running: boolean) =>
+      makeThreadFixture({
+        environmentId: app.environmentId,
+        id: ThreadId.make(id),
+        projectId: app.id,
+        title,
+        ...(running
+          ? {
+              runtime: {
+                status: "running" as const,
+                activeRunId: null,
+                providerInstanceId: ProviderInstanceId.make("codex"),
+                providerName: "Codex",
+                lastError: null,
+                updatedAt: "2026-03-09T10:00:00.000Z",
+              },
+            }
+          : {}),
+      });
+    vi.mocked(useProjects).mockReturnValue([app]);
+    vi.mocked(useQuietThreadShells).mockReturnValue([
+      thread("idle", "Idle work", false),
+      thread("running", "Running work", true),
+    ]);
+
+    await using screen = await render(
+      <SidebarProvider>
+        <Sidebar routeReveal={{ observedKey: null, pendingKey: null }} />
+      </SidebarProvider>,
+    );
+
+    await expect.element(screen.getByTestId("sidebar-working-shelf-toggle")).toBeVisible();
+    await expect.element(screen.getByText("Idle work")).toBeVisible();
+    const folderRowTitles = [
+      ...document.querySelectorAll<HTMLElement>('[data-sidebar-parent^="folder:"]'),
+    ].map((row) => row.textContent ?? "");
+    expect(folderRowTitles.some((text) => text.includes("Idle work"))).toBe(true);
+    expect(folderRowTitles.some((text) => text.includes("Running work"))).toBe(false);
   });
 });
 

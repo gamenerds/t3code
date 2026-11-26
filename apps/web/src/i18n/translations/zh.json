@@ -3220,7 +3220,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "位于打开此页面的计算机上"]
+      "c": [
+        " ",
+        "位于打开此页面的计算机上"
+      ]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3232,7 +3235,10 @@
     {
       "t": "span",
       "i": 2,
-      "c": [" ", "· 运行它的任何人都会获得此访问权限"]
+      "c": [
+        " ",
+        "· 运行它的任何人都会获得此访问权限"
+      ]
     }
   ],
   "c54cc9c75db9dc58": "请只批准你刚刚发起的登录。",
@@ -8935,10 +8941,6 @@
   "93c4c53562d30a98": "当你要求时，智能体会向你展示一份关于 T3 Code 的简短报告，经你批准后发送给 T3 团队。",
   "cd9ee803e8727017": "智能体还会主动报告自己遇到的 T3 Code 问题，例如 T3 工具运行失败。",
   "45fa271ea0e1ac8e": "测试版",
-  "3a678332fc7142f7": "将侧边栏会话按项目文件夹分组。置顶会话保留在顶部，已暂缓和已收尾会话显示在文件夹下方。",
-  "e4e91d155cb6a9b4": "简洁侧边栏（按项目分组）",
-  "f079556d67367fe7": "分两行显示文件夹内的会话：第一行显示标题，第二行显示分支、pull request 和智能体。",
-  "ac1e5c94d1ad3c6a": "双行文件夹列表",
   "9ae293971d93c819": "与访客共享会话，访客可在浏览器中实时查看，并发送需要你批准的消息。登录 T3 Connect 后即可使用访客链接。",
   "0aa5406ac4d7f7c7": "访客链接",
   "f0e853acd2006d53": "关联环境",
@@ -10285,8 +10287,6 @@
   "0dde92a0e2d0258a": "最新版",
   "cbf6a6bbc17e75e1": "当应用处于前台，其他会话完成、失败或需要输入或批准时显示提示。",
   "83ca942c7163904f": "将不同环境中的相同仓库合并显示。",
-  "609da998ca13521e": "侧边栏项目选择器和命令面板中的项目排序。",
-  "b4c541137a76b351": "将正在执行和监控的会话收起到“运行中”分组。需要你处理时，它们会回到收件箱顶部。实验功能中的简洁侧边栏不显示此分组。",
   "e815f49e5abedcfd": "取消置顶会话前询问。",
   "41210f99adeeba78": "点击会话行内的归档按钮后，需再次点击才会归档。",
   "84f3d2cefc8d2a74": "删除会话及其聊天记录前询问。",
@@ -11893,8 +11893,6 @@
   "6751449c6188912d": "用量 配额 速率限制 重置 唤醒 恢复 继续",
   "0aedae6a82c09429": "用量 配额 速率限制 重置 恢复 继续",
   "85dbcfec2d41f534": "隐藏 收起 运行中 监控中 会话 收件箱 侧边栏 分组",
-  "405a2295152c9d77": "测试版 文件夹 项目 树 经典 侧边栏",
-  "de42c4690914cee4": "测试版 简洁侧边栏 文件夹 行 多行 分支 PR 详情",
   "8f71bc7c325e23e3": "隐藏 工具调用 命令 编辑 搜索 工作日志 活动 安静 聊天 专注 仅最终回答",
   "5a3af411a0d5354c": "无障碍 a11y 屏幕阅读器 nvda jaws voiceover orca 讲述人 语音 播报 朗读 消息 活动 步骤",
   "d443390c4d2dcfd4": "无障碍 a11y 屏幕阅读器 nvda jaws voiceover orca 讲述人 窗口标题 标签页标题 alt tab 任务栏 会话状态 顺序 运行中 批准",
@@ -13000,5 +12998,29 @@
   "99451a5d2d40440f": "已由 {by} 撤回。",
   "3ee30a50b70fffab": "已由 {by} 撤回：{reason}",
   "92e129bf413a1220": "已撤回",
-  "800966eb58181745": "正在检查模型支持哪些语言…"
+  "800966eb58181745": "正在检查模型支持哪些语言…",
+  "86cedd0177f98775": "Order of projects and active sidebar threads. Manual keeps the order you drag threads into. Also set from the sidebar view options.",
+  "440d1e217d7a9f0c": "Fold working and monitoring threads into a Working section. They return to the active list when they need you.",
+  "c18895a15ac8a37f": "Other",
+  "348c0c8c1142aa1a": "After details",
+  "dcc557ac3b2a9399": "Before project",
+  "28f281b42d946320": "Before thread",
+  "92835db7102f15dc": "Before time",
+  "6e623f9664bdfe68": "After time",
+  "62418e8690797802": "None",
+  "b3217a28f40ef34b": "Status",
+  "11cfb497fbee51d9": "Project",
+  "6b4e51dfeb2cc328": "Last updated",
+  "080a04489c5d94d2": "Created",
+  "409b6510983ac25c": "Manual",
+  "46edecc2189d4076": "View options",
+  "83738c6520ef6dcb": "Group by",
+  "85dce58cc95211df": "Show",
+  "61ae85d4299bb698": "Working section",
+  "ee17bba6cb048438": "Project icon",
+  "8645583332ec940f": "Project name",
+  "7a00fe41ca0d9a38": "Thread details line",
+  "b5b00075e4db82ec": "Agent icon",
+  "6eef86347ea62144": "Apply to Settled etc",
+  "c40115e155bed1ee": "Apply view settings to Settled, Snoozed"
 }

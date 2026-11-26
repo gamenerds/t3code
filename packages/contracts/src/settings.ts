@@ -89,6 +89,15 @@ export type SidebarProjectGroupingMode = typeof SidebarProjectGroupingMode.Type;
 const DEFAULT_SIDEBAR_PROJECT_GROUPING_MODE: SidebarProjectGroupingMode = "repository";
 export const MIN_SIDEBAR_AUTO_SETTLE_AFTER_DAYS = 1;
 export const MAX_SIDEBAR_AUTO_SETTLE_AFTER_DAYS = 90;
+export const AgentIconPositionWhenCollapsed = Schema.Literals([
+  "beforeProject",
+  "afterProject",
+  "afterThreadName",
+  "afterTime",
+  "none",
+]);
+export type AgentIconPositionWhenCollapsed = typeof AgentIconPositionWhenCollapsed.Type;
+
 export const SidebarAutoSettleAfterDays = Schema.Number.check(
   Schema.isBetween({
     minimum: MIN_SIDEBAR_AUTO_SETTLE_AFTER_DAYS,
@@ -547,6 +556,19 @@ export const ClientSettingsSchema = Schema.Struct({
   boringSidebarEnabled: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
   boringSidebarMultilineRows: Schema.Boolean.pipe(
     Schema.withDecodingDefault(Effect.succeed(false)),
+  ),
+  sidebarCollapsedRows: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
+  sidebarCardDetailsLine: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(true))),
+  sidebarFolderAgentIcon: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(true))),
+  sidebarProjectIcon: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(true))),
+  sidebarCollapsedProjectName: Schema.Boolean.pipe(
+    Schema.withDecodingDefault(Effect.succeed(true)),
+  ),
+  sidebarViewAppliesToShelves: Schema.Boolean.pipe(
+    Schema.withDecodingDefault(Effect.succeed(false)),
+  ),
+  agentIconPositionWhenCollapsed: AgentIconPositionWhenCollapsed.pipe(
+    Schema.withDecodingDefault(Effect.succeed("none" as const)),
   ),
   toolCallVisibility: ToolCallVisibility.pipe(
     Schema.withDecodingDefault(Effect.succeed("showAll" as const)),
@@ -2178,6 +2200,13 @@ export const ClientSettingsPatch = Schema.Struct({
   showSkillsInSlashMenu: Schema.optionalKey(Schema.Boolean),
   boringSidebarEnabled: Schema.optionalKey(Schema.Boolean),
   boringSidebarMultilineRows: Schema.optionalKey(Schema.Boolean),
+  sidebarCollapsedRows: Schema.optionalKey(Schema.Boolean),
+  sidebarCardDetailsLine: Schema.optionalKey(Schema.Boolean),
+  sidebarFolderAgentIcon: Schema.optionalKey(Schema.Boolean),
+  sidebarProjectIcon: Schema.optionalKey(Schema.Boolean),
+  sidebarCollapsedProjectName: Schema.optionalKey(Schema.Boolean),
+  sidebarViewAppliesToShelves: Schema.optionalKey(Schema.Boolean),
+  agentIconPositionWhenCollapsed: Schema.optionalKey(AgentIconPositionWhenCollapsed),
   toolCallVisibility: Schema.optionalKey(ToolCallVisibility),
   screenReaderAnnouncements: Schema.optionalKey(ScreenReaderAnnouncements),
   screenReaderWindowTitle: Schema.optionalKey(Schema.Boolean),

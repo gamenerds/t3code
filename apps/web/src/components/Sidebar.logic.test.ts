@@ -36,6 +36,8 @@ import {
   type SidebarListMarker,
   type SidebarSection,
   resolveSidebarDropVerb,
+  groupSidebarShelfByProject,
+  sortSidebarActiveThreads,
   groupSidebarThreadsByProject,
   resolveSidebarFolderDot,
   sidebarFolderExpansionKeys,
@@ -1725,6 +1727,74 @@ describe("groupSidebarThreadsByProject", () => {
       { projectKey: "t3code", threads: ["a", "b"] },
       { projectKey: "fleet", threads: [] },
     ]);
+  });
+});
+
+describe("groupSidebarShelfByProject", () => {
+  it("groups a shelf in folder order and keeps threads with no folder in a last group", () => {
+    const app = ProjectId.make("app");
+    const docs = ProjectId.make("docs");
+    const groups = [
+      {
+        projectKey: "docs",
+        displayName: "docs",
+        memberProjectRefs: [{ environmentId: localEnvironmentId, projectId: docs }],
+      },
+      {
+        projectKey: "app",
+        displayName: "app",
+        memberProjectRefs: [{ environmentId: localEnvironmentId, projectId: app }],
+      },
+    ];
+    const thread = (id: string, projectId: ProjectId) => ({
+      id,
+      environmentId: localEnvironmentId,
+      projectId,
+    });
+    const threads = [
+      thread("a1", app),
+      thread("orphan", ProjectId.make("deleted")),
+      thread("d1", docs),
+      thread("a2", app),
+    ];
+
+    expect(
+      groupSidebarShelfByProject(groups, threads, (entry) => entry.id).map((group) => ({
+        key: group.key,
+        label: group.label,
+        threads: group.threads.map((entry) => entry.id),
+      })),
+    ).toEqual([
+      { key: "docs", label: "docs", threads: ["d1"] },
+      { key: "app", label: "app", threads: ["a1", "a2"] },
+      { key: "other", label: null, threads: ["orphan"] },
+    ]);
+  });
+});
+
+describe("sortSidebarActiveThreads", () => {
+  it("keeps the dragged order in Manual and sorts by time otherwise, ties keeping it", () => {
+    const thread = (id: string, createdAt: string, activeOrderKey: string) => ({
+      id: ThreadId.make(id),
+      environmentId: localEnvironmentId,
+      createdAt,
+      updatedAt: createdAt,
+      unsettledAt: null,
+      activeOrderKey,
+      latestUserMessageAt: null,
+      latestUserAuthoredMessageAt: null,
+    });
+    const threads = [
+      thread("old", "2026-01-01T00:00:00.000Z", "a0"),
+      thread("new", "2026-03-01T00:00:00.000Z", "a2"),
+      thread("tie-b", "2026-02-01T00:00:00.000Z", "a3"),
+      thread("tie-a", "2026-02-01T00:00:00.000Z", "a1"),
+    ];
+    const ids = (order: "manual" | "created_at") =>
+      sortSidebarActiveThreads(threads, order).map((entry) => entry.id);
+
+    expect(ids("manual")).toEqual(sortActiveThreadsByOrderKey(threads).map((entry) => entry.id));
+    expect(ids("created_at")).toEqual(["new", "tie-a", "tie-b", "old"]);
   });
 });
 
