@@ -384,4 +384,24 @@ describe("CommandPalette open intents", () => {
     await userEvent.keyboard("{Escape}");
     await expect.element(palette).not.toBeInTheDocument();
   });
+
+  it("shows Add project at the top of New thread in... and opens the Add project flow", async () => {
+    setup({ projects: [makeProject("Acme"), makeProject("Beta")] });
+    await using screen = await render(<CommandPalette>{null}</CommandPalette>);
+
+    openCommandPalette({ open: "new-thread-in" });
+
+    const addProjectButton = page.getByRole("button", { name: "Add project" });
+    await expect.element(addProjectButton).toBeVisible();
+    await expect.element(page.getByRole("option").first()).toHaveAttribute("data-highlighted");
+
+    // Browser unit tests omit Tailwind CSS, so the Base UI inert backdrop sits above non-virtualized controls.
+    await act(() => {
+      addProjectButton.element().dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+    await vi.waitFor(() =>
+      expect(screen.router?.state.location.pathname).toBe("/settings/connections"),
+    );
+  });
 });

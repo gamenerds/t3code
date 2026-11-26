@@ -3018,6 +3018,14 @@ function OpenCommandPaletteDialog(props: {
     await handleAddProject(pickedPath);
   };
 
+  const isNewThreadInView =
+    currentView?.groups[0]?.value === NEW_THREAD_IN_GROUP &&
+    !isBrowsing &&
+    addProjectCloneFlow === null &&
+    newProjectFlow === null &&
+    projectThreadItems.length > 0;
+  const hasSubmitAccessory =
+    newProjectFlow !== null || addProjectCloneFlow?.step === "repository" || isBrowsing;
   const submitButtonId = useId();
   const browseSubmitLabel =
     isCloneDestinationStep && !canCloneProject
@@ -3074,6 +3082,21 @@ function OpenCommandPaletteDialog(props: {
           }
         }}
       />
+    ) : isNewThreadInView ? (
+      <Button
+        variant="outline"
+        size="xs"
+        className="absolute inset-e-2.5 top-1/2 -translate-y-1/2"
+        onMouseDown={(event) => {
+          event.preventDefault();
+        }}
+        onClick={() => {
+          openAddProjectFlow();
+        }}
+      >
+        <FolderPlusIcon />
+        <T>Add project</T>
+      </Button>
     ) : null;
 
   const footerActionLabel =
@@ -3117,7 +3140,9 @@ function OpenCommandPaletteDialog(props: {
       inputProps={{
         className: hasHighlightedNewProjectItem
           ? "*:data-[slot=autocomplete-input]:pe-38!"
-          : addProjectCloneFlow?.step === "repository" || newProjectFlow !== null
+          : addProjectCloneFlow?.step === "repository" ||
+              newProjectFlow !== null ||
+              isNewThreadInView
             ? "*:data-[slot=autocomplete-input]:pe-32!"
             : isBrowsing
               ? browseInputEndPaddingClass({
@@ -3126,7 +3151,7 @@ function OpenCommandPaletteDialog(props: {
                 })
               : undefined,
         placeholder: inputPlaceholder,
-        "aria-describedby": inputAccessory ? submitButtonId : undefined,
+        "aria-describedby": hasSubmitAccessory ? submitButtonId : undefined,
         ...(isSubmenu
           ? {
               startAddon: (
