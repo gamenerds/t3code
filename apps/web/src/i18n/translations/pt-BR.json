@@ -1,4 +1,7 @@
 {
+  "6c6e16b9488f8b91": "Role para ler tudo.",
+  "035aab5e99159bd8": "{count, plural, one {… {hidden} caractere do meio não é exibido.} other {… {hidden} caracteres do meio não são exibidos.}} O texto termina com:",
+  "011b1ef726fa9928": "Role cada parte para ler tudo.",
   "4bcfa3b976a421cf": "Chat paralelo",
   "23be753133ae6950": "Thread",
   "0001ae5846061bb6": "Thread em {machine}",
@@ -20,6 +23,10 @@
   "2aa1c01bf8014725": "{organization} limita as threads a Aceitar edições automaticamente.",
   "89563a8fff8bb751": "{organization} limita as threads a Auto.",
   "5b7ff1208620c2c2": "{organization} limita as threads a Acesso total.",
+  "069e0382ff2496f5": "As configurações do Claude da sua organização desativam o modo automático.",
+  "8ccf7e0def66d339": "Suas configurações do Claude desativam o modo automático.",
+  "04ac2410d2cc0666": "As configurações do Claude deste projeto desativam o modo automático.",
+  "7e27789f5d58960e": "As configurações do Claude desativam o modo automático.",
   "9bf017edd3847eb1": "A política de {organization} não permite conexões de outros dispositivos.",
   "ef9533bcc048f17b": "A política de {organization} não permite o T3 Connect.",
   "986b0873f913a840": "A política de {organization} não permite tarefas de webhook.",
@@ -49,7 +56,7 @@
   "929a11e234f6e5d9": "Instale as ferramentas de linha de comando do Azure ({cli}) e ative o suporte ao Azure DevOps com {command}.",
   "ad599e9de33538dd": "Adicione um token do Bitbucket em Configurações → Controle de versão e issues.",
   "d810ecd91e8cf9d0": "Instale a CLI do Origin com {install} e execute {login}.",
-  "eb0f60ef4f92ab7d": "Instale o {fj} 0.6 ou posterior em {fjUrl} e execute {fjLogin}, ou instale o {tea} 0.16 ou posterior em {teaUrl} e execute {teaLogin} para cada servidor Forgejo ou Gitea.",
+  "1a04c8d36a7b29d3": "Instale o {fj} 0.6 ou posterior em {fjUrl} e execute {fjLogin}, ou instale o {gt} 2.0 ou posterior em {gtUrl} e execute {gtLogin} para cada servidor Forgejo ou Gitea.",
   "d026a85e2e50e675": "Instale a CLI do GitCafe com {install} e execute {login}, salve um token nas Configurações ou defina {variable} no servidor.",
   "22d3c0c48a34b5b3": "Instale a CLI do TanStack Source com {install} e execute {login}, salve um token nas Configurações ou defina {variable} no servidor.",
   "756c80ad262ef315": "Aguardando na thread original",
@@ -3216,10 +3223,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "no computador que abriu esta página"
-      ]
+      "c": [" ", "no computador que abriu esta página"]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3231,10 +3235,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "· quem executar recebe este acesso"
-      ]
+      "c": [" ", "· quem executar recebe este acesso"]
     }
   ],
   "c54cc9c75db9dc58": "Aprove apenas um login que você acabou de iniciar.",
@@ -3477,7 +3478,7 @@
   "12170596ff889d5b": "Anexar novamente",
   "748efc40dc99b309": "Remova para enviar",
   "fd3d4318e7b094fa": "Rascunho",
-  "9c421cab815b9905": "{count, plural, one {Mostrar mais {count} imagem anexada} other {Mostrar mais {count} imagens anexadas}}",
+  "c7f5c98f1e79cc6c": "{count, plural, one {Mostrar mais {count} imagem anexada} other {Mostrar mais {count} imagens anexadas}}",
   "ae136257600738d3": "Anexar arquivos",
   "3e04fb123bbf31b4": "Não foi possível salvar o anexo do rascunho localmente, e ele pode se perder ao navegar.",
   "81709882b9996586": "Anexar arquivos",
@@ -4938,8 +4939,6 @@
   "3f5c37167aa5034f": "O armazenamento do navegador rejeitou a gravação, então o editor de mensagens ficou como estava. Libere dados do site e tente novamente.",
   "41ba6c0b5c5e8b22": "O prompt guardado não vai sobreviver a uma recarga",
   "94d7f150b3f7b291": "O armazenamento do navegador não está disponível, então estes guardados ficam só na memória durante esta sessão.",
-  "f421c24666cd8c71": "Prompt guardado mais antigo descartado",
-  "1123f816ea2a6e3e": "Os guardados comportam {max} prompts; o mais antigo foi removido para abrir espaço.",
   "c3a8f9b1b2e7d588": "As imagens guardadas não foram salvas",
   "fc3feba263971bce": "O prompt foi guardado, mas o armazenamento do navegador rejeitou as imagens. Elas vão faltar se você recarregar.",
   "9e36559d0fa0cca8": "As imagens guardadas não foram anexadas",
@@ -4952,7 +4951,7 @@
   "55b562c00e37321b": "Não foi possível forçar a parada do agente",
   "ede15a83eedec569": "Turno parado; o agente ainda está encerrando",
   "f360accf1ccac178": "Turno parado; o processo do agente continuou em execução",
-  "5b660a378c56cc91": "{others, plural, =0 {Ele é compartilhado com outras threads em andamento. Pare-as para liberá-lo.} one {Ele é compartilhado com {others} thread em andamento. Pare-a para liberá-lo.} other {Ele é compartilhado com {others} threads em andamento. Pare-as para liberá-lo.}}",
+  "46f927ee332c1065": "{others, plural, =0 {Ele é compartilhado com outras threads em andamento. Pare-as para liberá-lo.} one {Ele é compartilhado com {others} thread em andamento. Pare-a para liberá-lo.} other {Ele é compartilhado com {others} threads em andamento. Pare-as para liberá-lo.}}",
   "f5948facf9a10261": "{count, plural, one {{count} thread iniciada em segundo plano} other {{count} threads iniciadas em segundo plano}}",
   "d2a83704191622a6": "Falha ao enviar as mensagens.",
   "c11072d4a6072902": "Não foi possível enviar um prompt em segundo plano",
@@ -5353,6 +5352,7 @@
   "c928303400ccaf24": "Falha ao iniciar o device hub.",
   "4cb21672153c1f18": "Nenhum simulador ou emulador foi encontrado neste ambiente.",
   "c82410197256eb53": "Simuladores iOS",
+  "31a71fec6b5f2bf3": "Dispositivos Android",
   "ac18a5e35195a258": "Emuladores Android",
   "94215375ea2558b8": "Em execução",
   "f8a65d4d662389b0": "Parado",
@@ -6832,8 +6832,6 @@
   "0e3eede94227c151": "Preparando o checkout {term, select, mr {do merge request} cr {da solicitação de alteração} other {do pull request}}...",
   "f5fd3733da6e3556": "Não foi possível abrir uma thread para o checkout",
   "09f38e303898401f": "Não foi possível preparar o checkout {term, select, mr {do merge request} cr {da solicitação de alteração} other {do pull request}}",
-  "853a77d42f86c918": "Checkout feito, mas a thread ficou onde estava",
-  "0746dfa692f895cc": "O checkout está pronto em `{branch}`. Aponte uma thread para ele pelo seletor de branch e pergunte novamente.",
   "88db70a96177d202": "Checkout feito aqui",
   "baa66fde3613022b": "Checkout feito",
   "10feb68552356a08": "Este repositório está no branch {term, select, mr {do merge request} cr {da solicitação de alteração} other {do pull request}}, com uma thread aberta nele.",
@@ -6936,6 +6934,7 @@
   "7074711ac6cc6f5c": "Falhando",
   "75b2bb15e4624860": "Indisponível",
   "ff6b088c383bf910": "Pesquisar autores",
+  "a766a8ac2670096c": "{count, plural, one {{count} merge carregado} other {{count} merges carregados}}",
   "d6179a157948c07c": "Nenhum autor encontrado",
   "353773803bf92ad4": "Não foi possível pesquisar autores no host",
   "e3e2d073449a0289": "Qualquer pessoa",
@@ -8924,6 +8923,10 @@
   "93c4c53562d30a98": "Quando você pede, os agentes mostram um breve relatório sobre o T3 Code e o enviam para a equipe do T3 se você aprovar.",
   "cd9ee803e8727017": "Os agentes também relatam por conta própria os problemas que encontram no T3 Code, como uma ferramenta do T3 que falhou.",
   "45fa271ea0e1ac8e": "Beta",
+  "3a678332fc7142f7": "Agrupa as threads da barra lateral em pastas de projeto. As threads fixadas ficam no topo, e Adiadas e Concluídas ficam abaixo das pastas.",
+  "e4e91d155cb6a9b4": "Barra lateral sem graça (agrupar por projeto)",
+  "f079556d67367fe7": "Mostra as threads das pastas em duas linhas: o título e, abaixo, o branch, o pull request e o agente.",
+  "ac1e5c94d1ad3c6a": "Linhas de pasta em duas linhas",
   "9ae293971d93c819": "Compartilhe uma thread com um convidado que a acompanha ao vivo no navegador e envia mensagens que você aprova. Entre no T3 Connect para usar links de convidado.",
   "0aa5406ac4d7f7c7": "Links de convidado",
   "f0e853acd2006d53": "Ambientes vinculados",
@@ -9610,6 +9613,7 @@
   "9bc60e1d0ef816cf": "Bytes de armazenamento",
   "85de927f664ee3cb": "Bytes lógicos",
   "ec1f81bc9b395fb9": "Todos os bytes de E/S",
+  "9fd31461cee8ff82": "{count, plural, one {{count} processo} other {{count} processos}}",
   "7905928d59208450": "Leitura",
   "637254a20a8e24a5": "Gravação",
   "ab9f29f78275f7bd": "Disponível quando esta página roda dentro do app desktop.",
@@ -9746,6 +9750,7 @@
   "543ef9fcaf8aa96f": "Desligado",
   "5173c50b0a60847c": "Atualização disponível: {serverVersion} → {clientVersion}",
   "987c5623ba70f390": "Rotas",
+  "36d52134b8b8d455": "{count, plural, one {{count} rota} other {{count} rotas}}",
   "80a2ef2c87f7f180": "servidor {label}",
   "08f54865b364957d": "Atualizar",
   "b426469630d60955": "Desligar {label}",
@@ -10272,6 +10277,8 @@
   "0dde92a0e2d0258a": "Mais recente",
   "cbf6a6bbc17e75e1": "Mostra um aviso quando outra thread termina, falha ou precisa de uma resposta ou aprovação enquanto o app está em foco.",
   "83ca942c7163904f": "Combina repositórios correspondentes entre ambientes.",
+  "609da998ca13521e": "Ordem dos projetos no seletor da barra lateral e na paleta de comandos.",
+  "b4c541137a76b351": "Agrupa as threads em andamento e em monitoramento em uma seção Trabalhando. Elas voltam ao topo da caixa de entrada quando precisam de você. A barra lateral sem graça do Labs não tem seção Trabalhando.",
   "e815f49e5abedcfd": "Pergunta antes de desafixar uma thread da seção de fixadas.",
   "41210f99adeeba78": "Exige um segundo clique para confirmar antes de arquivar uma thread.",
   "84f3d2cefc8d2a74": "Pergunta antes de excluir uma thread e o histórico dela.",
@@ -11869,6 +11876,8 @@
   "6751449c6188912d": "uso cota limite de taxa redefinir despertar recuperar continuar",
   "0aedae6a82c09429": "uso cota limite de taxa redefinir recuperar continuar",
   "85dbcfec2d41f534": "ocultar agrupar em execução monitoramento threads caixa de entrada barra lateral prateleira",
+  "405a2295152c9d77": "beta pastas projeto árvore barra lateral clássica",
+  "de42c4690914cee4": "beta barra lateral sem graça pasta linhas várias linhas branch pull request detalhes",
   "8f71bc7c325e23e3": "ocultar chamadas de ferramentas comandos edições pesquisas registro de trabalho atividade chat silencioso zen só respostas finais",
   "5a3af411a0d5354c": "acessibilidade a11y leitor de tela nvda jaws voiceover orca narrador fala anunciar ler em voz alta mensagens atividade etapas",
   "d443390c4d2dcfd4": "acessibilidade a11y leitor de tela nvda jaws voiceover orca narrador título da janela título da aba alt tab barra de tarefas status da thread ordem trabalhando aprovação",
@@ -12985,6 +12994,29 @@
   "3ee30a50b70fffab": "Retirada por {by}: {reason}",
   "92e129bf413a1220": "retirada",
   "800966eb58181745": "Verificando quais idiomas o modelo suporta…",
+  "410dded6e21c280d": "Os guardados estão cheios",
+  "1af8d12ac21cb183": "Os guardados comportam {max} prompts. Restaure ou exclua um para abrir espaço; o campo de texto ficou como estava.",
+  "381ceed77cb8b2b3": "Parar {name}",
+  "5b9fda36b610d25c": "Parar",
+  "1d372f6d555dde3c": "Parar todos os dispositivos",
+  "06d3fe3e6b255d15": [
+    "+",
+    {
+      "i": 1,
+      "k": "_gt_value_1",
+      "v": "v"
+    },
+    " mais"
+  ],
+  "f1b18820c0ab93ac": [
+    "+",
+    {
+      "i": 1,
+      "k": "_gt_value_1",
+      "v": "v"
+    },
+    " mais em Itens vinculados"
+  ],
   "86cedd0177f98775": "Order of projects and active sidebar threads. Manual keeps the order you drag threads into. Also set from the sidebar view options.",
   "440d1e217d7a9f0c": "Fold working and monitoring threads into a Working section. They return to the active list when they need you.",
   "c18895a15ac8a37f": "Other",

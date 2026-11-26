@@ -1,4 +1,7 @@
 {
+  "6c6e16b9488f8b91": "Desplázate para leerlo todo.",
+  "035aab5e99159bd8": "{count, plural, one {… No se muestra {hidden} carácter del medio.} other {… No se muestran {hidden} caracteres del medio.}} El texto termina con:",
+  "011b1ef726fa9928": "Desplázate en cada parte para leerla entera.",
   "4bcfa3b976a421cf": "Chat lateral",
   "23be753133ae6950": "Hilo",
   "0001ae5846061bb6": "Hilo en {machine}",
@@ -20,6 +23,10 @@
   "2aa1c01bf8014725": "{organization} limita los hilos a Aceptar ediciones automáticamente.",
   "89563a8fff8bb751": "{organization} limita los hilos a Automático.",
   "5b7ff1208620c2c2": "{organization} limita los hilos a Acceso total.",
+  "069e0382ff2496f5": "La configuración de Claude de tu organización desactiva el modo automático.",
+  "8ccf7e0def66d339": "Tu configuración de Claude desactiva el modo automático.",
+  "04ac2410d2cc0666": "La configuración de Claude de este proyecto desactiva el modo automático.",
+  "7e27789f5d58960e": "La configuración de Claude desactiva el modo automático.",
   "9bf017edd3847eb1": "La política de {organization} no permite conectarse desde otros dispositivos.",
   "ef9533bcc048f17b": "La política de {organization} no permite T3 Connect.",
   "986b0873f913a840": "La política de {organization} no permite tareas de webhook.",
@@ -49,7 +56,7 @@
   "929a11e234f6e5d9": "Instala las herramientas de línea de comandos de Azure ({cli}) y activa la compatibilidad con Azure DevOps con {command}.",
   "ad599e9de33538dd": "Añade un token de Bitbucket en Ajustes → Control de versiones e issues.",
   "d810ecd91e8cf9d0": "Instala la CLI de Origin con {install} y ejecuta {login}.",
-  "eb0f60ef4f92ab7d": "Instala {fj} 0.6 o posterior desde {fjUrl} y ejecuta {fjLogin}, o instala {tea} 0.16 o posterior desde {teaUrl} y ejecuta {teaLogin} para cada servidor de Forgejo o Gitea.",
+  "1a04c8d36a7b29d3": "Instala {fj} 0.6 o posterior desde {fjUrl} y ejecuta {fjLogin}, o instala {gt} 2.0 o posterior desde {gtUrl} y ejecuta {gtLogin} para cada servidor de Forgejo o Gitea.",
   "d026a85e2e50e675": "Instala la CLI de GitCafe con {install} y ejecuta {login}, guarda un token en Ajustes o define {variable} en el servidor.",
   "22d3c0c48a34b5b3": "Instala la CLI de TanStack Source con {install} y ejecuta {login}, guarda un token en Ajustes o define {variable} en el servidor.",
   "756c80ad262ef315": "En espera en el hilo original",
@@ -3216,10 +3223,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "en el ordenador que abrió esta página"
-      ]
+      "c": [" ", "en el ordenador que abrió esta página"]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3231,10 +3235,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "· quien lo ejecute obtiene este acceso"
-      ]
+      "c": [" ", "· quien lo ejecute obtiene este acceso"]
     }
   ],
   "c54cc9c75db9dc58": "Aprueba solo un inicio de sesión que acabes de iniciar.",
@@ -3477,7 +3478,7 @@
   "12170596ff889d5b": "Volver a adjuntar",
   "748efc40dc99b309": "Quítalo para enviar",
   "fd3d4318e7b094fa": "Borrador",
-  "9c421cab815b9905": "{count, plural, one {Mostrar {count} imagen adjunta más} other {Mostrar {count} imágenes adjuntas más}}",
+  "c7f5c98f1e79cc6c": "{count, plural, one {Mostrar {count} imagen adjunta más} other {Mostrar {count} imágenes adjuntas más}}",
   "ae136257600738d3": "Adjuntar archivos",
   "3e04fb123bbf31b4": "No se pudo guardar localmente el adjunto del borrador y puede perderse al navegar.",
   "81709882b9996586": "Adjuntar archivos",
@@ -4938,8 +4939,6 @@
   "3f5c37167aa5034f": "El almacenamiento del navegador rechazó la escritura, así que el cuadro de mensaje se quedó como estaba. Libera datos del sitio y vuelve a intentarlo.",
   "41ba6c0b5c5e8b22": "El prompt del stash no sobrevivirá a una recarga",
   "94d7f150b3f7b291": "El almacenamiento del navegador no está disponible, así que este stash solo se guarda en memoria durante esta sesión.",
-  "f421c24666cd8c71": "Se descartó el prompt más antiguo del stash",
-  "1123f816ea2a6e3e": "El stash admite {max} prompts; se quitó el más antiguo para hacer sitio.",
   "c3a8f9b1b2e7d588": "Las imágenes del stash no se guardaron",
   "fc3feba263971bce": "El prompt se guardó en el stash, pero el almacenamiento del navegador rechazó sus imágenes. Faltarán si recargas.",
   "9e36559d0fa0cca8": "Las imágenes del stash no se adjuntaron",
@@ -4952,7 +4951,7 @@
   "55b562c00e37321b": "No se pudo forzar la detención del agente",
   "ede15a83eedec569": "Turno detenido; el agente aún se está cerrando",
   "f360accf1ccac178": "Turno detenido; el proceso del agente siguió ejecutándose",
-  "5b660a378c56cc91": "{others, plural, =0 {Se comparte con otros hilos en curso. Detenlos para liberarlo.} one {Se comparte con {others} hilo en curso. Detenlo para liberarlo.} other {Se comparte con {others} hilos en curso. Detenlos para liberarlo.}}",
+  "46f927ee332c1065": "{others, plural, =0 {Se comparte con otros hilos en curso. Detenlos para liberarlo.} one {Se comparte con {others} hilo en curso. Detenlo para liberarlo.} other {Se comparte con {others} hilos en curso. Detenlos para liberarlo.}}",
   "f5948facf9a10261": "{count, plural, one {Se inició {count} hilo en segundo plano} other {Se iniciaron {count} hilos en segundo plano}}",
   "d2a83704191622a6": "No se pudieron enviar los mensajes.",
   "c11072d4a6072902": "No se pudo enviar un prompt en segundo plano",
@@ -5353,6 +5352,7 @@
   "c928303400ccaf24": "No se pudo iniciar el device hub.",
   "4cb21672153c1f18": "No se encontraron simuladores ni emuladores en este entorno.",
   "c82410197256eb53": "Simuladores de iOS",
+  "31a71fec6b5f2bf3": "Dispositivos Android",
   "ac18a5e35195a258": "Emuladores de Android",
   "94215375ea2558b8": "En ejecución",
   "f8a65d4d662389b0": "Detenido",
@@ -6832,8 +6832,6 @@
   "0e3eede94227c151": "Preparando el checkout de la {term, select, mr {merge request} cr {solicitud de cambios} other {pull request}}...",
   "f5fd3733da6e3556": "No se pudo abrir un hilo para el checkout",
   "09f38e303898401f": "No se pudo preparar el checkout de la {term, select, mr {merge request} cr {solicitud de cambios} other {pull request}}",
-  "853a77d42f86c918": "Checkout hecho, pero el hilo se quedó donde estaba",
-  "0746dfa692f895cc": "El checkout está listo en `{branch}`. Apunta un hilo a él desde el selector de ramas y vuelve a preguntar.",
   "88db70a96177d202": "Checkout hecho aquí",
   "baa66fde3613022b": "Checkout hecho",
   "10feb68552356a08": "Este repositorio está en la rama de la {term, select, mr {merge request} cr {solicitud de cambios} other {pull request}}, con un hilo abierto en ella.",
@@ -6936,6 +6934,7 @@
   "7074711ac6cc6f5c": "Fallidas",
   "75b2bb15e4624860": "No disponible",
   "ff6b088c383bf910": "Buscar autores",
+  "a766a8ac2670096c": "{count, plural, one {{count} fusión cargada} other {{count} fusiones cargadas}}",
   "d6179a157948c07c": "No se encontraron autores",
   "353773803bf92ad4": "No se pudieron buscar autores en el host",
   "e3e2d073449a0289": "Cualquiera",
@@ -8924,6 +8923,10 @@
   "93c4c53562d30a98": "Cuando lo pides, los agentes te muestran un breve informe sobre T3 Code y lo envían al equipo de T3 si lo apruebas.",
   "cd9ee803e8727017": "Los agentes también informan por su cuenta de los problemas que encuentran en T3 Code, como una herramienta de T3 que falla.",
   "45fa271ea0e1ac8e": "Beta",
+  "3a678332fc7142f7": "Agrupa los hilos de la barra lateral en carpetas de proyecto. Los hilos fijados quedan arriba, y Pospuestos y Resueltos quedan debajo de las carpetas.",
+  "e4e91d155cb6a9b4": "Barra lateral simple (agrupar por proyecto)",
+  "f079556d67367fe7": "Muestra los hilos de las carpetas en dos líneas: el título y, debajo, la rama, la pull request y el agente.",
+  "ac1e5c94d1ad3c6a": "Filas de carpeta en dos líneas",
   "9ae293971d93c819": "Comparte un hilo con un invitado que lo ve en directo en un navegador y envía mensajes que tú apruebas. Inicia sesión en T3 Connect para usar enlaces de invitado.",
   "0aa5406ac4d7f7c7": "Enlaces de invitado",
   "f0e853acd2006d53": "Entornos vinculados",
@@ -9608,6 +9611,7 @@
   "9bc60e1d0ef816cf": "Bytes de almacenamiento",
   "85de927f664ee3cb": "Bytes lógicos",
   "ec1f81bc9b395fb9": "Todos los bytes de E/S",
+  "9fd31461cee8ff82": "{count, plural, one {{count} proceso} other {{count} procesos}}",
   "7905928d59208450": "Lectura",
   "637254a20a8e24a5": "Escritura",
   "ab9f29f78275f7bd": "Disponible cuando esta página se ejecuta dentro de la app de escritorio.",
@@ -9744,6 +9748,7 @@
   "543ef9fcaf8aa96f": "Apagado",
   "5173c50b0a60847c": "Actualización disponible: {serverVersion} → {clientVersion}",
   "987c5623ba70f390": "Rutas",
+  "36d52134b8b8d455": "{count, plural, one {{count} ruta} other {{count} rutas}}",
   "80a2ef2c87f7f180": "servidor {label}",
   "08f54865b364957d": "Actualizar",
   "b426469630d60955": "Apagar {label}",
@@ -10270,6 +10275,8 @@
   "0dde92a0e2d0258a": "Última",
   "cbf6a6bbc17e75e1": "Muestra un aviso cuando otro hilo termina, falla o necesita una respuesta o aprobación mientras la app está en primer plano.",
   "83ca942c7163904f": "Combina los repositorios coincidentes de distintos entornos.",
+  "609da998ca13521e": "Orden de los proyectos en el selector de la barra lateral y en la paleta de comandos.",
+  "b4c541137a76b351": "Agrupa los hilos activos y en seguimiento en la sección En curso. Vuelven arriba de la bandeja de entrada cuando te necesitan. La barra lateral simple (en Experimentos) no tiene sección En curso.",
   "e815f49e5abedcfd": "Pregunta antes de desfijar un hilo de la sección de fijados.",
   "41210f99adeeba78": "Pide un segundo clic en la acción de archivar antes de archivar un hilo.",
   "84f3d2cefc8d2a74": "Pregunta antes de eliminar un hilo y su historial de chat.",
@@ -11864,6 +11871,8 @@
   "6751449c6188912d": "uso cuota límite de uso restablecer reactivar recuperar continuar",
   "0aedae6a82c09429": "uso cuota límite de uso restablecer recuperar continuar",
   "85dbcfec2d41f534": "ocultar agrupar en ejecución seguimiento hilos bandeja de entrada barra lateral estante en curso",
+  "405a2295152c9d77": "beta carpetas proyecto árbol barra lateral clásica",
+  "de42c4690914cee4": "beta barra lateral simple boring sidebar filas de carpetas multilínea rama pull request detalles",
   "8f71bc7c325e23e3": "ocultar llamadas a herramientas comandos ediciones búsquedas registro de trabajo actividad chat silencioso zen solo respuestas finales",
   "5a3af411a0d5354c": "accesibilidad a11y lector de pantalla nvda jaws voiceover orca narrador voz anunciar leer en voz alta mensajes actividad pasos",
   "d443390c4d2dcfd4": "accesibilidad a11y lector de pantalla nvda jaws voiceover orca narrador título de ventana título de pestaña alt tab barra de tareas estado del hilo orden en curso aprobación",
@@ -12980,6 +12989,29 @@
   "3ee30a50b70fffab": "Retirada por {by}: {reason}",
   "92e129bf413a1220": "retirada",
   "800966eb58181745": "Comprobando qué idiomas admite el modelo…",
+  "410dded6e21c280d": "El stash está lleno",
+  "1af8d12ac21cb183": "El stash admite {max} prompts. Restaura o elimina uno para hacer sitio; el campo de texto se dejó como estaba.",
+  "381ceed77cb8b2b3": "Detener {name}",
+  "5b9fda36b610d25c": "Detener",
+  "1d372f6d555dde3c": "Detener todos los dispositivos",
+  "06d3fe3e6b255d15": [
+    "+",
+    {
+      "i": 1,
+      "k": "_gt_value_1",
+      "v": "v"
+    },
+    " más"
+  ],
+  "f1b18820c0ab93ac": [
+    "+",
+    {
+      "i": 1,
+      "k": "_gt_value_1",
+      "v": "v"
+    },
+    " más en Elementos vinculados"
+  ],
   "86cedd0177f98775": "Order of projects and active sidebar threads. Manual keeps the order you drag threads into. Also set from the sidebar view options.",
   "440d1e217d7a9f0c": "Fold working and monitoring threads into a Working section. They return to the active list when they need you.",
   "c18895a15ac8a37f": "Other",
