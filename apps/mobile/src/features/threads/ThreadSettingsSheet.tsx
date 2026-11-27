@@ -98,7 +98,7 @@ import { useSelectedThreadWorktree } from "../../state/use-selected-thread-workt
 import { providerWorkspaceSnapshotRefresh } from "../../state/provider-workspace-snapshot-refresh";
 import { threadAllowsProviderSwitch } from "../../state/thread-provider-switching";
 import { environmentServerConfigsAtom, serverEnvironment } from "../../state/server";
-import { mobilePreferencesAtom } from "../../state/preferences";
+import { mobilePreferencesAtom, saveMobilePreferences } from "../../state/preferences";
 import { useAtomCommand } from "../../state/use-atom-command";
 import { useNewTaskFlow } from "./new-task-flow-provider";
 import { ScreenContent } from "../../components/ui/ScreenContent";
@@ -342,7 +342,7 @@ type ThreadSettingsSessionValue = {
   readonly isApplied: (option: ModelOption) => boolean;
   readonly isDisplayed: (option: ModelOption) => boolean;
   readonly pressModel: (option: ModelOption) => void;
-  readonly setFavoritesOnly: (favoritesOnly: boolean) => void;
+  readonly toggleFavoritesOnly: () => void;
   readonly setProviderFilter: (providerKey: string | null) => void;
   readonly setSearchQuery: (query: string) => void;
   readonly setShowLegacy: (showLegacy: boolean) => void;
@@ -509,7 +509,18 @@ function ThreadSettingsSessionProvider(
     });
   };
   const [showLegacyToggle, setShowLegacyToggle] = useState(false);
-  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const savePreferences = useAtomCommand(saveMobilePreferences);
+  const preferencesLoaded = AsyncResult.isSuccess(preferences);
+  const favoritesOnly = preferencesLoaded && preferences.value.modelPickerFavoritesOnly === true;
+  // Transforms read optimistic state so same-frame presses toggle twice.
+  const toggleFavoritesOnly = () => {
+    if (!preferencesLoaded) return;
+    void savePreferences({
+      transform: (current) => ({
+        modelPickerFavoritesOnly: current.modelPickerFavoritesOnly !== true,
+      }),
+    });
+  };
   const [providerFilter, setProviderFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [providerExpansionOverrides, setProviderExpansionOverrides] = useState<ReadonlySet<string>>(
@@ -679,7 +690,7 @@ function ThreadSettingsSessionProvider(
     isApplied,
     isDisplayed,
     pressModel,
-    setFavoritesOnly,
+    toggleFavoritesOnly,
     setProviderFilter,
     setSearchQuery,
     setShowLegacy: setShowLegacyToggle,
@@ -1391,7 +1402,7 @@ function ThreadSettingsModelsScreen() {
                 id: "favorites-only",
                 title: gt("Favorites only"),
                 selected: session.favoritesOnly,
-                onPress: () => session.setFavoritesOnly(!session.favoritesOnly),
+                onPress: session.toggleFavoritesOnly,
               },
               {
                 id: "provider",
